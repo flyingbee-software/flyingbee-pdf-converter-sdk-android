@@ -114,7 +114,7 @@ Notes:
 
 > ⚠️ **Windows users — short path required.** Before you begin, **unzip or clone the project into a short, ASCII-only path without spaces** (e.g. `E:\FPPDFConverter\` or `D:\Projects\FPPDF\`). Windows has a 260-character `MAX_PATH` limit, and Android Gradle builds (especially when NDK / CMake / `.cxx` native chains kick in) generate deeply nested intermediate directories that easily exceed it. Chinese characters, spaces and special characters in the path also break `make` / `clang` argument parsing. If your path is long or non-ASCII you will see cryptic "file not found" or "path too long" errors during Gradle sync or compile — moving the project to a short, clean path fixes 80% of them. This matters most for the **C++ demo**, which builds a CMake/NDK chain.
 
-Both projects need two things dropped in before the first build — both are commercial binaries and therefore **not committed to git**:
+Both projects need two things dropped in before the first build:
 
 ```
 FPPDFFramework_Demo_Android/app/libs/flyingbee/FPPDFFramework-10.3.6.aar
