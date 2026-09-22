@@ -166,7 +166,7 @@ struct OptionsBag
     // General
     int isParserAnnots = 1;
     int threadMax = 2;
-    int imageDPI = 300;
+    int imageDPI = 144;
     float imageQuality = 0.92f;
     bool isEnableOCR = false;
 
@@ -193,7 +193,7 @@ struct OptionsBag
 
     // Image
     int imageFormat = 1; // PNG
-    int imageOutputDPI = 300;
+    int imageOutputDPI = 144;
     float imageOutputQuality = 0.92f;
     bool imagePackageZip = false;
     bool imageAntiAlias = true;

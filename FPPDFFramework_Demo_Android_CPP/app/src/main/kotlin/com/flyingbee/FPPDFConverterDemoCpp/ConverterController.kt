@@ -172,8 +172,8 @@ class ConverterController(app: Application) : AndroidViewModel(app), FPPDFDelega
 
             val optionsHandle = FPPDFNative.newOptions()
             try {
-                FPPDFNative.setOptionsGeneral(optionsHandle, 1, 0, 300, 0.92f, useOcr)
-                FPPDFNative.setOptionsImage(optionsHandle, 1, 300, 0.92f, false, true)
+                FPPDFNative.setOptionsGeneral(optionsHandle, 1, 0, 144, 0.92f, useOcr)
+                FPPDFNative.setOptionsImage(optionsHandle, 1, 144, 0.92f, false, true)
                 if (useOcr) {
                     // Same OCR defaults as the native OptionsBag / Kotlin demo:
                     // English tessdata, LSTM-only engine, 300 DPI render,

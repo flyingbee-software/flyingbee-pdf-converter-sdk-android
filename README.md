@@ -98,7 +98,7 @@ This section describes what the SDK requires at **runtime on the end user's devi
 | Tested Android OS | 6.0 (API 23) through 16 (API 36/37), phones, tablets and emulators |
 | CPU architectures | `arm64-v8a`, `armeabi-v7a`, `x86_64`, `x86` (one `libFPPDFFramework.so` per ABI, plus a small per-ABI Kotlin-layer bridge `libFPPDFFrameworkKotlin.so`) |
 | Native runtime | The AAR ships a Kotlin API layer (`com.flyingbee.FPPDFFramework.*`) on top of the C++ core. The core carries a private, statically linked libc++, so your app's own STL choice (`c++_shared` / `c++_static` / none) is irrelevant unless you write native code |
-| Storage (app data) | ~75 MB for the unpacked `Resources.bundle` (PDF CMaps, OOXML templates, Tesseract `tessdata`) — shipped inside the AAR's assets and unpacked automatically by `FPPDFFramework.initialize()` — plus the ~17 MB per-ABI native library inside the APK |
+| Storage (app data) | ~75 MB for the unpacked `Resources.bundle` (PDF CMaps, OOXML templates, Tesseract `tessdata`) — **you ship this yourself** in `app/src/main/assets/Resources.bundle/`; `FPPDFFramework.initialize()` unpacks it to internal storage on first launch — plus the ~17 MB per-ABI native library inside the APK |
 | Memory | Conversion is multi-threaded. Measured on an arm64 emulator converting a 4-page sample with OCR at the default settings: peak ~290 MB PSS during page rendering/OCR start, ~150 MB PSS steady state. Keep `threadMax` low (2–3) on low-RAM devices |
 | Network | None. All processing is fully offline |
 | Runtime permissions | None required for internal-storage I/O (the SDK reads the input PDF and writes output under the app's own private directories). No camera, network or external-storage permission is used |
@@ -114,11 +114,14 @@ Notes:
 
 > ⚠️ **Windows users — short path required.** Before you begin, **unzip or clone the project into a short, ASCII-only path without spaces** (e.g. `E:\FPPDFConverter\` or `D:\Projects\FPPDF\`). Windows has a 260-character `MAX_PATH` limit, and Android Gradle builds (especially when NDK / CMake / `.cxx` native chains kick in) generate deeply nested intermediate directories that easily exceed it. Chinese characters, spaces and special characters in the path also break `make` / `clang` argument parsing. If your path is long or non-ASCII you will see cryptic "file not found" or "path too long" errors during Gradle sync or compile — moving the project to a short, clean path fixes 80% of them. This matters most for the **C++ demo**, which builds a CMake/NDK chain.
 
-Both projects need the SDK AAR dropped in before the first build — it is a commercial binary and is therefore **not committed to git**:
+Both projects need two things dropped in before the first build — both are commercial binaries and therefore **not committed to git**:
 
 ```
 FPPDFFramework_Demo_Android/app/libs/flyingbee/FPPDFFramework-10.3.6.aar
 FPPDFFramework_Demo_Android_CPP/app/libs/flyingbee/FPPDFFramework-10.3.6.aar
+
+FPPDFFramework_Demo_Android/app/src/main/assets/Resources.bundle/       (copy the whole folder)
+FPPDFFramework_Demo_Android_CPP/app/src/main/assets/Resources.bundle/    (copy the whole folder)
 ```
 
 See `app/libs/flyingbee/README.md` in each project.
@@ -158,7 +161,7 @@ The debug APK contains all four ABIs (~86 MB). For your own releases, use an ABI
 
 Why the native link is manual instead of Prefab: `libFPPDFFramework.so` is a *shared* library with a privately, statically linked libc++ (self-contained delivery, no `libc++_shared.so` to ship). AGP's Prefab integration categorically rejects that combination for any consumer, so the demo unpacks the AAR at build time and links the imported `.so` + headers directly. The public API only crosses the boundary in C types and PODs, so two independent libc++ copies can never interact.
 
-The C++ demo shows the two things you cannot learn from the Kotlin demo: how to unpack `Resources.bundle` and call `FPPDF2AllConverter::SetResourceRootFolder(...)` yourself (`SdkResources.kt`), and the correct JNI thread attach/detach pattern (`FPPDFFramework_jni.cpp`).
+Both demos ship `Resources.bundle` in their `app/src/main/assets/` and unpack it on launch (Kotlin demo via `FPPDFFramework.initialize()`, CPP demo via its own `SdkResources.kt`). The C++ demo additionally shows the correct JNI thread attach/detach pattern (`FPPDFFramework_jni.cpp`) and how to link the `.so` + headers manually instead of using Prefab.
 
 > The C++ demo packages only `libFPPDFFramework.so` — it excludes the SDK's Kotlin bridge `libFPPDFFrameworkKotlin.so`, since it talks to the C++ API directly.
 
@@ -181,7 +184,10 @@ flyingbee-pdf-converter-sdk-android/
 │   │   │   ├── MainActivity.kt            Compose host, file picking, share/open intents
 │   │   │   └── ui/                        Home, Settings (+5 sub-screens),
 │   │   │                                  sample & OCR pickers
-│   │   └── src/main/assets/samples/       seven demo PDFs
+│   │   └── src/main/assets/
+│       ├── Resources.bundle/              SDK runtime resources (CMaps, OOXML
+│       │                                   templates, tessdata, fonts.conf)
+│       └── samples/                       seven demo PDFs
 │   └── build.gradle.kts / settings.gradle.kts / gradle/
 └── FPPDFFramework_Demo_Android_CPP/       C++ API demo — own JNI bridge
     ├── app/
@@ -195,7 +201,9 @@ flyingbee-pdf-converter-sdk-android/
     │   │   │                              SetResourceRootFolder
     │   │   ├── ConverterController.kt     conversion flow via the C++ API
     │   │   └── MainActivity.kt            Compose host
-    │   └── src/main/assets/samples/       one demo PDF
+    │   └── src/main/assets/
+    │       ├── Resources.bundle/            SDK runtime resources (same as Kotlin demo)
+    │       └── samples/                     one demo PDF
     └── build.gradle.kts / settings.gradle.kts / gradle/
 ```
 
@@ -216,9 +224,6 @@ FPPDFFramework.aar
 ├── jni/<abi>/libFPPDFFrameworkKotlin.so   the JNI bridge the Kotlin layer uses
 │                                          (small; excluded from your APK if you use
 │                                          only the C++ API, as the CPP demo shows)
-├── assets/Resources.bundle/               PDF CMaps, OOXML templates, tessdata —
-│                                          unpacked to internal storage by
-│                                          FPPDFFramework.initialize()
 ├── prefab/modules/FPPDFFramework/include/ the 3 public C++ headers (for native use):
 │     FPPDFFramework.h                     converter + document API, SetResourceRootFolder
 │     FPPDFOptions.h                       all option structs (word/excel/image/ocr/...)
@@ -226,11 +231,11 @@ FPPDFFramework.aar
 └── proguard.txt                           consumer rules for the Kotlin API
 ```
 
-The AAR is consumed as a plain file dependency (see step 1 below). AGP merges the Kotlin classes, the native libraries, and the `Resources.bundle` assets into your APK automatically — there is nothing to copy, unpack, or configure by hand.
+The AAR is consumed as a plain file dependency (see step 1 below). AGP merges the Kotlin classes and the native libraries (`jni/<abi>/*.so`) into your APK automatically. **Resources.bundle is not inside the AAR** — you place it in `app/src/main/assets/Resources.bundle/` and AGP merges that alongside.
 
 ## Integrating the SDK into Your Own App
 
-The Kotlin demo consumes the SDK exactly as a customer app should. Three pieces are involved:
+The Kotlin demo consumes the SDK exactly as a customer app should. Four pieces are involved:
 
 ### 1. Depend on the AAR
 
@@ -243,20 +248,25 @@ dependencies {
 }
 ```
 
-No `settings.gradle.kts` repository changes are needed — this is a plain file dependency. AGP automatically merges the Kotlin classes, `jni/<abi>/*.so` and `assets/Resources.bundle` from the AAR into your APK.
+No `settings.gradle.kts` repository changes are needed — this is a plain file dependency. AGP automatically merges the Kotlin classes and `jni/<abi>/*.so` from the AAR into your APK.
 
-### 2. Initialize the SDK once
+### 2. Ship Resources.bundle
+
+Copy the **entire `Resources.bundle/` folder** from the SDK drop (or from the demo's `app/src/main/assets/Resources.bundle/`) into your app at `app/src/main/assets/Resources.bundle/`. This is required because the AAR no longer carries the runtime resources.
+
+### 3. Initialize the SDK once
 
 ```kotlin
 // Call once (any thread; it does file I/O on first launch, so prefer a
-// background thread).  Unpacks the bundled Resources.bundle into app-private
-// storage and points the native SDK at it.  Idempotent and thread-safe.
+// background thread).  Unpacks Resources.bundle from your app's assets into
+// app-private storage and points the native SDK at it.  Idempotent and
+// thread-safe.  Throws FPPDFFrameworkException if Resources.bundle is missing.
 FPPDFFramework.initialize(applicationContext)
 ```
 
 Before this call, `FPPDFDocument` / `FPPDFConverter` throw. `initialize()` also verifies that the Kotlin layer and the native core come from the same SDK build (ABI check) and throws `FPPDFFrameworkException` otherwise.
 
-### 3. Convert
+### 4. Convert
 
 ```kotlin
 val converter = FPPDFConverter()
@@ -296,7 +306,7 @@ converter.cancel()
 
 For Java (non-coroutine) callers, `convertAsync(request, callback)` delivers the same events through a `ConvertCallback`.
 
-> **Resources and the resource root.** On Windows/macOS/Linux the SDK resolves `Resources.bundle` relative to the executable; on Android `initialize()` performs the equivalent `SetResourceRootFolder` step for you. You never have to ship or unpack the bundle yourself — it lives in the AAR's assets. If you drive the C++ API natively (CPP demo), the demo's `SdkResources.kt` shows the manual unpack + `FPPDF2AllConverter::SetResourceRootFolder(...)` sequence.
+> **Resources and the resource root.** On Windows/macOS/Linux the SDK resolves `Resources.bundle` relative to the executable; on Android you must ship it in `app/src/main/assets/Resources.bundle/` and `initialize()` unpacks it to internal storage. If you drive the C++ API natively (CPP demo), you do the unpack + `FPPDF2AllConverter::SetResourceRootFolder(...)` sequence yourself — the demo's `SdkResources.kt` shows the code.
 
 ## API Reference
 
@@ -378,7 +388,7 @@ converter.cancelConversion();
 
 ## Platform Notes and Limitations
 
-- **Resources.** The SDK's runtime resources (`Resources.bundle`: PDF CMaps, OOXML templates, Tesseract `tessdata`) ship inside the AAR's assets; `FPPDFFramework.initialize()` copies them to internal storage on first launch (a few seconds for ~75 MB). Do not add a second copy to your own assets.
+- **Resources.** The SDK's runtime resources (`Resources.bundle`: PDF CMaps, OOXML templates, Tesseract `tessdata`) are **not** inside the AAR. You ship them in `app/src/main/assets/Resources.bundle/` and `FPPDFFramework.initialize()` copies them to internal storage on first launch (a few seconds for ~75 MB). Omitting this folder causes an `FPPDFFrameworkException` at `initialize()`.
 - **Coroutines.** The Kotlin API's `convert()` is a `suspend` function and `progress`/`willSaveDoc` are `Flow`s, so your app needs `kotlinx-coroutines-android`. Java callers without coroutines can use `convertAsync(request, callback)`.
 - **JNI worker threads (only if you write native code).** The SDK runs conversions on its own pthreads and reports progress by calling its delegate from those threads. If you write your own JNI bridge to the C++ API and attach such a thread to the JVM (`AttachCurrentThread`) to invoke Kotlin/Java code, it must call `DetachCurrentThread` again before the thread exits — on Android below 11 (API 30) ART aborts the whole process otherwise. The safest pattern, used by the CPP demo's `FPPDFFramework_jni.cpp`, is a small RAII guard that attaches for the duration of each callback and detaches on scope exit. The bundled Kotlin layer already handles this for you.
 - **OCR on Android.** With the resources wired up by `initialize()`, OCR works out of the box: the bundled `tessdata` is found through the resource root. Enable "OCR recognition" on the Home screen and pick languages in Settings.
@@ -386,7 +396,7 @@ converter.cancelConversion();
 - **Images → PDF / Text → Word.** Available only through the C++ API; the Kotlin layer does not expose them yet.
 - **Debug logging.** The SDK's optional file logging is anchored to the executable folder and is not available in the Android app form; the demo therefore has no "Debug log" section (the iOS demo does).
 - **Trial license watermarking.** With the bundled evaluation license, output documents may carry trial restrictions; the Home screen shows the licensed organization and expiry date reported by the SDK (`FPPDFFramework.license`).
-- **APK size.** Each ABI carries one ~17 MB `libFPPDFFramework.so` (plus a small Kotlin-bridge `.so`) and the AAR additionally ships ~75 MB of SDK resources. Use ABI splits / App Bundles and ship only the resource sub-folders you need in production.
+- **APK size.** Each ABI carries one ~17 MB `libFPPDFFramework.so` (plus a small Kotlin-bridge `.so`); your own `Resources.bundle` in assets adds ~75 MB. Use ABI splits / App Bundles and ship only the resource sub-folders you need in production.
 - **Permissions.** The demos need no runtime permissions: they use the Storage Access Framework (document picker) and a `FileProvider` for sharing.
 
 ## Frequently Asked Questions (FAQ)
@@ -457,7 +467,7 @@ Yes. The AAR ships a first-class Kotlin API (`com.flyingbee.FPPDFFramework.*`) w
 
 ### How large is the SDK in my APK?
 
-~17 MB per ABI (stripped `libFPPDFFramework.so` + a small Kotlin-bridge `.so`) plus ~75 MB of runtime resources (`Resources.bundle`, inside the AAR's assets) which the SDK unpacks to internal storage on first launch. Use Android App Bundles / ABI splits so each device only downloads one ABI.
+~17 MB per ABI (stripped `libFPPDFFramework.so` + a small Kotlin-bridge `.so`) from the AAR, plus the ~75 MB `Resources.bundle` you ship in your app's assets (unpacked to internal storage on first launch). Use Android App Bundles / ABI splits so each device only downloads one ABI.
 
 ### Does the demo source code have the same license as the SDK?
 

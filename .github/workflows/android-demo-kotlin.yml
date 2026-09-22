@@ -1,0 +1,112 @@
+# ---------------------------------------------------------------------------
+# CI for FPPDFFramework_Demo_Android (pure Kotlin API integration).
+#
+# Toolchain (see gradle/libs.versions.toml + gradle-wrapper.properties):
+#   Gradle 9.7.1 | AGP 9.4.x | Kotlin 2.2.20 | compileSdk / targetSdk 37
+#   gradle/gradle-daemon-jvm.properties pins the Gradle daemon to JDK 25, so
+#   the runner is set up with JDK 25: Gradle then reuses it instead of
+#   auto-provisioning a toolchain from foojay.io at build time. (AGP 9.4 needs
+#   JDK 17 or newer - JDK 11, as in the stock Android CI template, fails here.)
+#
+# The SDK is consumed as a direct AAR file (app/libs/flyingbee/
+# FPPDFFramework-10.3.6.aar), which is committed to this repository, so no
+# credentials are needed. If you ever remove it from git, restore it from a
+# secret before the build step (see the note in the "Check bundled SDK AAR" step).
+#
+# The app contains no native code: no NDK, no CMake, no JNI of its own.
+# ---------------------------------------------------------------------------
+
+name: Android CI - Kotlin Demo
+
+on:
+  push:
+    branches: ["main", "master"]
+    paths:
+      - "FPPDFFramework_Demo_Android/**"
+      - ".gitattributes"
+      - ".github/workflows/android-demo-kotlin.yml"
+  pull_request:
+    branches: ["main", "master"]
+    paths:
+      - "FPPDFFramework_Demo_Android/**"
+      - ".gitattributes"
+      - ".github/workflows/android-demo-kotlin.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-demo-kotlin-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: FPPDFFramework_Demo_Android
+
+jobs:
+  build:
+    name: Assemble debug + release APKs
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
+        with:
+          java-version: "25"
+          distribution: "temurin"
+          cache: gradle
+
+      # No android-actions/setup-android: it runs `sdkmanager "tools"`, a package
+      # removed from current cmdline-tools, and dies with exit code 1 on today's
+      # runner images. The runner already ships the Android SDK (ANDROID_HOME at
+      # /usr/local/lib/android/sdk) with the licenses accepted.
+      - name: Install SDK platform and build tools
+        run: |
+          : "${ANDROID_HOME:=${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}}"
+          echo "ANDROID_HOME=$ANDROID_HOME" >> "$GITHUB_ENV"
+          # cmdline-tools lives under a versioned dir (16.0, "latest" is absent).
+          SDKMANAGER="$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager 2>/dev/null | sort -V | tail -n 1)"
+          if [ -z "$SDKMANAGER" ]; then
+            echo "::warning::sdkmanager not found; letting AGP auto-download what it needs."
+            exit 0
+          fi
+          yes | "$SDKMANAGER" --licenses > /dev/null 2>&1 || true
+          # compileSdk 37 + AGP 9.4 default build tools. Not fatal on failure:
+          # AGP auto-downloads whatever is still missing at build time.
+          "$SDKMANAGER" --install "platform-tools" "platforms;android-37" "build-tools;36.0.0" || true
+
+      # gradlew is committed with LF endings via .gitattributes; add the exec
+      # bit anyway so the build also works from a checkout made on Windows.
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      - name: Check bundled SDK AAR
+        run: |
+          if [ ! -f app/libs/flyingbee/FPPDFFramework-10.3.6.aar ]; then
+            echo "::error::FPPDFFramework-10.3.6.aar is missing from app/libs/flyingbee/."
+            echo "::error::Commit it, or restore it from a secret before this step"
+            echo "::error::(e.g. a base64 repo secret decoded into that path)."
+            exit 1
+          fi
+
+      - name: Build with Gradle
+        run: ./gradlew :app:assembleDebug :app:assembleRelease
+
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: fppdf-demo-kotlin-debug
+          path: FPPDFFramework_Demo_Android/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+
+      - name: Upload release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: fppdf-demo-kotlin-release
+          path: FPPDFFramework_Demo_Android/app/build/outputs/apk/release/*.apk
+          if-no-files-found: error

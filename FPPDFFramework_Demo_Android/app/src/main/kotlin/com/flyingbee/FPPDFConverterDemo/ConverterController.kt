@@ -146,7 +146,7 @@ class ConverterController(app: Application) : AndroidViewModel(app) {
     var customPageRange: String by mutableStateOf("1")
     var threadMode: ThreadMode by mutableStateOf(ThreadMode.Auto)
     var customThreadCount: String by mutableStateOf("3")
-    var imageDPI: Int by mutableStateOf(300)
+    var imageDPI: Int by mutableStateOf(144)
     var imageQualityIndex: Int by mutableStateOf(3)
 
     // --- Word ------------------------------------------------------------------------------
@@ -154,7 +154,7 @@ class ConverterController(app: Application) : AndroidViewModel(app) {
     var wordMergeParagraphs: Boolean by mutableStateOf(false)
     var wordShapeToImage: Boolean by mutableStateOf(true)
     var wordMergeIntersectImages: Boolean by mutableStateOf(true)
-    var wordImageDPI: Int by mutableStateOf(300)
+    var wordImageDPI: Int by mutableStateOf(144)
     var wordOutlineType: Int by mutableStateOf(1)
 
     // --- Excel ------------------------------------------------------------------------------
@@ -174,7 +174,7 @@ class ConverterController(app: Application) : AndroidViewModel(app) {
     var htmlPackageZip: Boolean by mutableStateOf(false)
 
     // --- Image output --------------------------------------------------------------------------
-    var imageOutputDPI: Int by mutableStateOf(300)
+    var imageOutputDPI: Int by mutableStateOf(144)
     var imageOutputQualityIndex: Int by mutableStateOf(3)
     var imagePackageZip: Boolean by mutableStateOf(false)
     var imageAntiAlias: Boolean by mutableStateOf(true)
@@ -418,13 +418,13 @@ class ConverterController(app: Application) : AndroidViewModel(app) {
         customPageRange = prefs.getString("settings_pageRange", "")?.ifEmpty { "1" } ?: "1"
         threadMode = ThreadMode.entries.getOrElse(prefs.getInt("settings_multiThreadSegment", 0)) { ThreadMode.Auto }
         customThreadCount = prefs.getString("settings_multiThread", "")?.ifEmpty { "3" } ?: "3"
-        imageDPI = prefs.getInt("settings_imageDPI", 300)
+        imageDPI = prefs.getInt("settings_imageDPI", 144)
         imageQualityIndex = prefs.getInt("settings_imageQuality", 3)
         wordTrimBlankSpace = prefs.getBoolean("docx_trimBlankSpace", true)
         wordMergeParagraphs = prefs.getBoolean("docx_mergeParagraph", false)
         wordShapeToImage = prefs.getBoolean("docx_enableShapToImage", true)
         wordMergeIntersectImages = prefs.getBoolean("docx_enableMergeImages", true)
-        wordImageDPI = prefs.getInt("docx_imageDPI", 300)
+        wordImageDPI = prefs.getInt("docx_imageDPI", 144)
         wordOutlineType = prefs.getInt("docx_outline", 1)
         excelAllInOneSheet = prefs.getBoolean("xlsx_allInOneSheet", false)
         excelRecognizeNumber = prefs.getBoolean("xlsx_recognizeNumber", true)
@@ -438,7 +438,7 @@ class ConverterController(app: Application) : AndroidViewModel(app) {
         htmlNavigationBar = prefs.getInt("html_navigationBar", 1)
         htmlTextFlowParagraph = prefs.getInt("html_textFlowParagraph", 0)
         htmlPackageZip = prefs.getBoolean("html_isPackageZip", false)
-        imageOutputDPI = prefs.getInt("image_imageDPI", 300)
+        imageOutputDPI = prefs.getInt("image_imageDPI", 144)
         imageOutputQualityIndex = prefs.getInt("image_imageQuality", 3)
         imagePackageZip = prefs.getBoolean("image_isPackageZip", false)
         imageAntiAlias = prefs.getBoolean("image_isAntiAlias", true)

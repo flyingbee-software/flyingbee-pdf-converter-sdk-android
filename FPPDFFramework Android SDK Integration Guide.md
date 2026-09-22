@@ -2,7 +2,7 @@
 
 Welcome to the official integration guide for the **FPPDFFramework SDK for Android**. This guide shows how to convert PDFs to Word, Excel, PowerPoint, HTML, Images and more on Android using the SDK's **Kotlin API** — no NDK, no CMake, and no JNI code of your own.
 
-The SDK ships as a single AAR (`FPPDFFramework-10.3.6.aar`) containing the Kotlin API layer (`com.flyingbee.FPPDFFramework.*`), the self-contained native core (`libFPPDFFramework.so`, 4 ABIs), the runtime resources (`Resources.bundle` in assets), and three public C++ headers for advanced native use. This guide covers both integration paths:
+The SDK ships as a single AAR (`FPPDFFramework-10.3.6.aar`) containing the Kotlin API layer (`com.flyingbee.FPPDFFramework.*`), the self-contained native core (`libFPPDFFramework.so`, 4 ABIs), and three public C++ headers for advanced native use. The runtime resources (`Resources.bundle` — CMaps, OOXML templates, tessdata, fonts.conf) are shipped alongside the AAR and must be placed in your app's `src/main/assets/Resources.bundle/`. This guide covers both integration paths:
 
 | Path | API | Demo project |
 | :--- | :--- | :--- |
@@ -22,7 +22,7 @@ Before writing any integration code, you can exercise the same conversion engine
   - [1. Add the AAR](#1-add-the-aar)
   - [2. Initialize the SDK (required)](#2-initialize-the-sdk-required)
   - [3. License verification](#3-license-verification)
-- [Comprehensive ConversionOptions Configuration](#comprehensive-conversionoptions-configuration)
+- [Comprehensive Conversion Options Configuration](#comprehensive-conversionoptions-configuration)
 - [Supported Output Formats & Directory Management](#supported-output-formats--directory-management)
 - [Complete Conversion Workflow](#complete-conversion-workflow)
 - [Using the C++ API Directly](#using-the-c-api-directly)
@@ -63,9 +63,9 @@ dependencies {
 }
 ```
 
-No `settings.gradle.kts` repository changes are needed. AGP merges the Kotlin classes, the per-ABI native libraries, and the `Resources.bundle` assets into your APK automatically.
+No `settings.gradle.kts` repository changes are needed. AGP merges the Kotlin classes and the per-ABI native libraries into your APK automatically.
 
-> The AAR is a commercial binary and is **not committed to git**. Drop it into `app/libs/flyingbee/` before the first build; see `app/libs/flyingbee/README.md` in either demo project.
+> The AAR is a commercial binary and is **not committed to git**. Drop it into `app/libs/flyingbee/` before the first build; see `app/libs/flyingbee/README.md` in either demo project. You must also copy the `Resources.bundle/` folder into your app at `app/src/main/assets/Resources.bundle/` — it is no longer baked into the AAR.
 
 ### 2. Initialize the SDK (required)
 
@@ -79,7 +79,7 @@ import com.flyingbee.FPPDFFramework.FPPDFFramework
 FPPDFFramework.initialize(applicationContext)
 ```
 
-`initialize()` unpacks the bundled `Resources.bundle` (PDF CMaps, OOXML templates, Tesseract `tessdata`), points the native SDK at it (the Android equivalent of `FPPDF2AllConverter::SetResourceRootFolder`), and verifies the Kotlin layer and native core come from the same SDK build. Skipping it makes every other API throw. If initialization fails it throws `FPPDFFrameworkException`.
+`initialize()` unpacks `Resources.bundle` from your app's assets (PDF CMaps, OOXML templates, Tesseract `tessdata`), points the native SDK at it (the Android equivalent of `FPPDF2AllConverter::SetResourceRootFolder`), and verifies the Kotlin layer and native core come from the same SDK build. Skipping it makes every other API throw. If initialization fails it throws `FPPDFFrameworkException` — including when `Resources.bundle` is missing from assets.
 
 ### 3. License verification
 
@@ -92,7 +92,7 @@ if (lic.isExpired) { /* surface a message to the user */ }
 
 If the package name does not match the licensed application ID, conversions fail with `Invalid Lib Key.`
 
-## Comprehensive ConversionOptions Configuration
+## Comprehensive Conversion Options Configuration
 
 `ConversionOptions` mirrors the native `FPPDFOptions` tree field-for-field. Construct one directly or with the `conversionOptions { }` DSL; every field has a sensible default, so you only set what you need.
 
@@ -327,15 +327,15 @@ converter.cancelConversion();
 
 ### Key points
 
-- Call `FPPDF2AllConverter::SetResourceRootFolder(<folder containing Resources.bundle>)` once before the first converter — the CPP demo unpacks the AAR's assets itself (`SdkResources.kt`) to do this.
+- Call `FPPDF2AllConverter::SetResourceRootFolder(<folder containing Resources.bundle>)` once before the first converter — the CPP demo unpacks `Resources.bundle` from its own app assets (`SdkResources.kt`) to do this.
 - The public API only crosses the JNI boundary in C types and PODs, so your app's STL choice (`c++_shared` / `c++_static` / none) never conflicts with the SDK's private libc++.
 - If your own JNI bridge attaches an SDK worker thread to the JVM to invoke Kotlin/Java code, it must `DetachCurrentThread` before the thread exits — on Android below 11 (API 30) ART aborts the process otherwise. `FPPDFFramework_jni.cpp` shows the RAII guard.
 
 ## Platform Notes
 
-- **Resources.** `Resources.bundle` lives in the AAR's assets and `FPPDFFramework.initialize()` copies it to internal storage on first launch (a few seconds for ~75 MB). Don't ship a second copy in your own assets.
+- **Resources.** `Resources.bundle` is **not** in the AAR — you must ship it in your app's `src/main/assets/Resources.bundle/`. `FPPDFFramework.initialize()` copies it to internal storage on first launch (a few seconds for ~75 MB). Omitting it causes `FPPDFFrameworkException`.
 - **Memory.** Peak ~290 MB PSS during page rendering on a 4-page OCR conversion, ~150 MB PSS steady state (arm64). Keep `threadMax` at 1–2 on low-RAM devices.
-- **APK size.** ~17 MB per ABI plus ~75 MB of resources. Use App Bundles / ABI splits.
+- **APK size.** ~17 MB per ABI from the AAR plus ~75 MB of your own `Resources.bundle` in assets. Use App Bundles / ABI splits.
 - **Threading.** The Kotlin `convert()` is a `suspend` function; the SDK runs the work on its own pthreads and reports progress through `Flow`s. No threading setup is required on your side.
 - **Offline.** No network access, no runtime permissions, no device features required.
 - **Debug logging.** The SDK's optional file logging is anchored to the executable folder and is unavailable in the Android app form.
@@ -364,7 +364,7 @@ A: Usually a missing or mismatched native library: `initialize()` checks that `l
 
 **Q: Do I need to ship or unpack `Resources.bundle` myself?**
 
-A: No. It lives inside the AAR's assets, and `FPPDFFramework.initialize()` copies it to internal storage on first launch (a few seconds for ~75 MB). Adding a second copy to your own assets just doubles the download.
+A: **Yes.** `Resources.bundle` is no longer inside the AAR — you must copy it from the SDK drop (or from the demo's `app/src/main/assets/Resources.bundle/`) into your own app at `app/src/main/assets/Resources.bundle/`. AGP then merges it into the APK. `FPPDFFramework.initialize()` unpacks it to internal storage on first launch; if you drive the C++ API natively, your code must call `FPPDF2AllConverter::SetResourceRootFolder` after unpacking it yourself (see the CPP demo's `SdkResources.kt`).
 
 **Q: Can I convert specific pages instead of the whole document?**
 
