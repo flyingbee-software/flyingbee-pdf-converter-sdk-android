@@ -61,17 +61,24 @@ jobs:
           distribution: "temurin"
           cache: gradle
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
+      # No android-actions/setup-android: it runs `sdkmanager "tools"`, a package
+      # removed from current cmdline-tools, and dies with exit code 1 on today's
+      # runner images. The runner already ships the Android SDK (ANDROID_HOME at
+      # /usr/local/lib/android/sdk) with the licenses accepted.
       - name: Install SDK platform and build tools
         run: |
-          echo "$ANDROID_HOME/cmdline-tools/latest/bin" >> "$GITHUB_PATH"
-          export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
-          yes | sdkmanager --licenses > /dev/null || true
+          : "${ANDROID_HOME:=${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}}"
+          echo "ANDROID_HOME=$ANDROID_HOME" >> "$GITHUB_ENV"
+          # cmdline-tools lives under a versioned dir (16.0, "latest" is absent).
+          SDKMANAGER="$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager 2>/dev/null | sort -V | tail -n 1)"
+          if [ -z "$SDKMANAGER" ]; then
+            echo "::warning::sdkmanager not found; letting AGP auto-download what it needs."
+            exit 0
+          fi
+          yes | "$SDKMANAGER" --licenses > /dev/null 2>&1 || true
           # compileSdk 37 + AGP 9.4 default build tools. Not fatal on failure:
           # AGP auto-downloads whatever is still missing at build time.
-          sdkmanager --install "platform-tools" "platforms;android-37" "build-tools;36.0.0" || true
+          "$SDKMANAGER" --install "platform-tools" "platforms;android-37" "build-tools;36.0.0" || true
 
       # gradlew is committed with LF endings via .gitattributes; add the exec
       # bit anyway so the build also works from a checkout made on Windows.
