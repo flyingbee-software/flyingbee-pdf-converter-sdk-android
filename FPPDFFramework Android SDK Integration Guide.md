@@ -65,7 +65,7 @@ dependencies {
 
 No `settings.gradle.kts` repository changes are needed. AGP merges the Kotlin classes and the per-ABI native libraries into your APK automatically.
 
-> The AAR is a commercial binary and is **not committed to git**. Drop it into `app/libs/flyingbee/` before the first build; see `app/libs/flyingbee/README.md` in either demo project. You must also copy the `Resources.bundle/` folder into your app at `app/src/main/assets/Resources.bundle/` — it is no longer baked into the AAR.
+> The AAR is a commercial binary. Drop it into `app/libs/flyingbee/` before the first build; see `app/libs/flyingbee/README.md` in either demo project. You must also copy the `Resources.bundle/` folder into your app at `app/src/main/assets/Resources.bundle/` — it is no longer baked into the AAR.
 
 ### 2. Initialize the SDK (required)
 
