@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Foreground glyph: a stylised "PDF -> " document mark. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- document body -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M38,30 h22 l10,10 v38 a2,2 0 0 1 -2,2 h-30 a2,2 0 0 1 -2,-2 v-46 a2,2 0 0 1 2,-2 z" />
+    <!-- folded corner -->
+    <path
+        android:fillColor="#D6E4F0"
+        android:pathData="M60,30 l10,10 h-10 z" />
+    <!-- "PDF" bars -->
+    <path
+        android:fillColor="#0A66C2"
+        android:pathData="M42,50 h12 v5 h-12 z M42,59 h16 v5 h-16 z M42,68 h9 v5 h-9 z" />
+    <!-- conversion arrow -->
+    <path
+        android:fillColor="#2E9E4F"
+        android:pathData="M72,52 l8,8 l-8,8 l-3,-3 l5,-5 l-5,-5 z" />
+</vector>

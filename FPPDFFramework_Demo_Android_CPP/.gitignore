@@ -1,0 +1,18 @@
+# Gradle / Android Studio
+.gradle/
+build/
+app/build/
+app/.cxx/
+.kotlin/
+local.properties
+
+# Flyingbee SDK binary — commercial artifact, never commit.
+# Drop FPPDFFramework-<version>.aar into app/libs/flyingbee/ before building;
+# see app/libs/flyingbee/README.md.
+
+# IDE
+.idea/
+*.iml
+
+# macOS
+.DS_Store

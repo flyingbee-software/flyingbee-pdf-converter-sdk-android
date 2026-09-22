@@ -1,0 +1,7 @@
+<resources>
+    <!-- AppCompatActivity (required for per-app locales via
+         AppCompatDelegate.setApplicationLocales) demands a Theme.AppCompat
+         descendant; the Compose layer paints everything itself, so the
+         NoActionBar variant keeps the previous chrome-free look. -->
+    <style name="Theme.FPPDFFrameworkDemo" parent="Theme.AppCompat.Light.NoActionBar" />
+</resources>

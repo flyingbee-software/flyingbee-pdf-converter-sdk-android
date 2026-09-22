@@ -1,0 +1,104 @@
+# Gradle / Android Studio
+.gradle/
+build/
+app/build/
+app/.cxx/
+.kotlin/
+local.properties
+
+# Flyingbee SDK binary — commercial artifact, never commit.
+# Redistribution of the AAR is prohibited by the SDK license; customers
+# obtain it from Flyingbee and drop it into app/libs/flyingbee/ before
+# building (see app/libs/flyingbee/README.md).
+
+# IDE
+.idea/
+*.iml
+
+
+# ----------------------------------------------------------------
+# AI client personal state — never commit.
+# The committed AI entry point is `STYLE.md` (with its AI Onboarding
+# section at the top). The only committed thin-pointer file is
+# `.github/copilot-instructions.md` (Rule 3). Everything below is
+# per-developer ephemeral state — chat history, sessions, caches,
+# model downloads, MCP credentials, completion logs, command
+# transcripts, plus per-developer local hint files. Adjust the
+# negation lines if you add tracked files inside an ignored
+# directory (e.g. team rule files under `.cursor/rules/`).
+# ----------------------------------------------------------------
+
+# WorkBuddy — must be a bare pattern; gitignore does NOT support
+# trailing `#` comments on a pattern line (the whole line becomes
+# the pattern, which then matches nothing).
+.workbuddy/
+
+# Claude Code (Anthropic)
+.claude/
+CLAUDE.local.md
+
+# OpenAI Codex CLI
+.codex/
+.codex-sessions/
+AGENTS.local.md
+# AGENTS.md is a per-developer local hint file (thin pointer to
+# `STYLE.md`); the committed entry point is `STYLE.md` itself.
+AGENTS.md
+
+# Gemini CLI
+.gemini/
+GEMINI.local.md
+
+# Cursor — the whole user state dir is ignored. Team pointer lives at
+# the repo root as `.cursorrules` (legacy form, supported by every
+# Cursor version) so it never gets caught inside the ignored directory
+# (gitignore `!` negation cannot re-include files whose parent dir is
+# already ignored — see `gitignore(5)`). If you need the modern
+# `.cursor/rules/*.mdc` layout, add a per-developer note to your
+# personal Cursor config instead of tracking it here.
+.cursor/
+
+# Windsurf — `.windsurfrules` at the repo root is the team pointer; keep
+.windsurf/
+Windsurfrules.local
+
+# GitHub Copilot
+.copilot/
+.github/copilot-chat/
+*.copilot-chat
+
+# Cline / Roo Code
+.clinerules/
+.cline/
+.roo/
+
+# Aider (any file/dir starting with .aider, plus known names)
+.aider*
+.aider.chat.history.md
+.aider.input.history
+.aider.tags.cache.v3
+.aider.model.info.json
+aider*
+
+# Continue.dev
+.continue/
+
+# Sourcegraph Cody
+.cody/
+
+# JetBrains AI Assistant (IntelliJ / AppCode)
+.idea/ai-assistant/
+
+# MCP client scratch — credentials and ad-hoc server configs
+.mcp_config*.json
+.mcp_servers/
+
+# Generic AI transcript / session catch-alls
+*ai-session*.json
+*chat-history*.md
+*session-transcript*.json
+
+# macOS Finder noise (Dropbox-style copy hooks, Sidecar staging, etc.).
+.DS_Store
+.AppleDouble
+.LSOverride

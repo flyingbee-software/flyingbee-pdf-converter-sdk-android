@@ -1,0 +1,13 @@
+# Gradle wrapper scripts must keep LF endings on every platform.
+# With CRLF, macOS/Linux shells fail with `/bin/sh^M: bad interpreter`.
+gradlew        text eol=lf
+
+# Batch files are the opposite: Windows cmd wants CRLF.
+*.bat          text eol=crlf
+
+# Binary assets that must never be line-ending converted.
+*.aar          binary
+*.jar          binary
+*.png          binary
+*.pdf          binary
+*.so           binary

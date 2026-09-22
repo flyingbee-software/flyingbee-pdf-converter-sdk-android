@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">FPPDFFramework C++ Demo</string>
+    <string name="convert_docx">Convert sample PDF to DOCX</string>
+    <string name="convert_docx_ocr">Convert sample PDF to DOCX (OCR)</string>
+    <string name="convert_png">Convert sample PDF to PNG</string>
+    <string name="cancel">Cancel</string>
+    <string name="output_dir">Output: %1$s</string>
+    <string name="output_files">Output files (tap to preview)</string>
+    <string name="no_preview_app">No app found to open %1$s</string>
+</resources>
