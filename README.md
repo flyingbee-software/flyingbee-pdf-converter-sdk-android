@@ -2,7 +2,7 @@
 
 Flyingbee PDF Conversion SDK for Android is a high-performance, developer-friendly library that converts PDF to Word, Excel, PowerPoint, HTML, CSV, plain text, images, and structured XML elements on Android devices — preserving original layouts, text, and images. Whether you need a robust Android PDF conversion SDK or a comprehensive mobile PDF library to convert PDF to editable Word documents in your Android app, this SDK delivers enterprise-grade accuracy and formatting fidelity.
 
-This repository ships **two ready-to-run demo projects** that cover both integration paths of the same SDK:
+This repository ships **2 ready-to-run demo projects** that cover both integration paths of the same SDK:
 
 | Project | Integration surface | Native code in the app |
 | :--- | :--- | :--- |
@@ -481,9 +481,9 @@ Ready to evaluate the SDK? [Contact our sales team](https://www.flyingbee.com/co
 
 ### Get a Commercial License
 
-Flyingbee PDF Conversion SDK is a commercial product requiring a valid license for application release. Redistribution of the SDK binary (`FPPDFFramework.aar` / `libFPPDFFramework.so`) or its public headers to third parties is strictly prohibited.
+Flyingbee PDF Conversion SDK is a commercial product requiring a valid license for application release. To obtain a commercial license, please [contact our sales team](https://www.flyingbee.com/contact-us?utm_source=github_readme_conversion_sdk_android&utm_medium=referral&utm_campaign=github_readme_conversion_sdk_android). 
 
-To obtain a commercial license, please [contact our sales team](https://www.flyingbee.com/contact-us?utm_source=github_readme_conversion_sdk_android&utm_medium=referral&utm_campaign=github_readme_conversion_sdk_android). **Note:** For the Android Conversion SDK, commercial licenses must be bound to your specific Android application IDs (package names).
+**Note:** For the Android Conversion SDK, commercial licenses must be bound to your specific Android application IDs (package names).
 
 ## Technical Support
 
@@ -506,8 +506,6 @@ This package contains two components under different licenses:
 
 - **The demo application source code** in this repository (`FPPDFFramework_Demo_Android/` and `FPPDFFramework_Demo_Android_CPP/` — the Kotlin/Compose apps and the Gradle project files) is open source and licensed under the [Apache License 2.0](LICENSE). You are free to copy, modify and reuse it in your own projects.
 - **The `FPPDFFramework.aar` binary** (the Kotlin API classes, the self-contained `libFPPDFFramework.so` and its public headers) is a **commercial product**. It is *not* covered by the Apache license above and requires a valid Flyingbee license to ship in a released app. See [License Options and Free Trial](#license-options-and-free-trial).
-
-In short: the sample code is free to use; the SDK it links against is not.
 
 ## Acknowledgements
 
