@@ -8,7 +8,7 @@
 // Components instead of Jetpack Compose.
 //
 // The SDK is consumed exactly the way a customer app should:
-//   app/libs/flyingbee/FPPDFFramework-10.3.6.aar (direct AAR dependency).
+//   SDK/libs/flyingbee/FPPDFFramework-10.3.6.aar (shared direct AAR dependency).
 // The app drives the SDK purely through its Java API
 // (com.flyingbee.FPPDFFramework.Java.*); the AAR's classes.jar and
 // jni/<abi>/ native libraries are merged into the APK by AGP. There is no

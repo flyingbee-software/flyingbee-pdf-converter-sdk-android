@@ -6,10 +6,9 @@ app/.cxx/
 .kotlin/
 local.properties
 
-# Flyingbee SDK binary — commercial artifact, never commit.
-# Redistribution of the AAR is prohibited by the SDK license; customers
-# obtain it from Flyingbee and drop it into app/libs/flyingbee/ before
-# building (see app/libs/flyingbee/README.md).
+# Flyingbee SDK binary — the demos intentionally commit one shared copy at
+# SDK/libs/flyingbee/ so a fresh clone builds out of the box. Keep it tracked;
+# do NOT add a *.aar ignore rule here (see SDK/libs/flyingbee/README.md).
 
 # IDE
 .idea/

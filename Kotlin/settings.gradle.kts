@@ -6,7 +6,7 @@
 // the same per-format option screens, the same sample-PDF library.
 //
 // The SDK is consumed exactly the way a customer app should:
-//   app/libs/flyingbee/FPPDFFramework-10.3.6.aar (direct AAR dependency).
+//   SDK/libs/flyingbee/FPPDFFramework-10.3.6.aar (shared direct AAR dependency).
 // The app drives the SDK purely through its Kotlin API
 // (com.flyingbee.FPPDFFramework.*); the AAR's classes.jar and
 // jni/<abi>/ native libraries are merged into the APK by AGP. There is no
