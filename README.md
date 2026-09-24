@@ -34,7 +34,7 @@ Experience the full power of our PDF conversion SDK before integrating it into y
 - **Background Conversion** — asynchronous conversion that keeps the UI responsive; cancellable at any time.
 - **Password Protection** — open and convert encrypted PDFs (the demo prompts for the password).
 - **Page Selection** — convert all pages, the first N pages, or a custom page range.
-- **Sample Library** — seven bundled sample PDFs covering every conversion path (Kotlin / Java demos).
+- **Sample Library** — seven bundled sample PDFs covering every conversion path, shared by all three demos from the repo-root `SDK/assets/samples/`.
 - **Per-format option screens** — the full `ConversionOptions` tree is editable in the UI and persisted across launches (Kotlin / Java demos).
 
 > **Note:** Images → PDF and Text → Word are exposed by the C++ API (`convertImages2PDF` / `convertText2Word`). They are not yet surfaced by the Kotlin layer.
@@ -70,7 +70,7 @@ Experience the full power of our PDF conversion SDK before integrating it into y
 | **NDK / CMake required** | No | No | Yes (NDK 28.2.13676358, CMake 3.22.1) |
 | **Formats exercised** | Word, PowerPoint, Excel, CSV, HTML, Image, Element, Text | Word, PowerPoint, Excel, CSV, HTML, Image, Element, Text | DOCX and PNG (+ an OCR path that side-buffers to `<base>_ocr.docx`) |
 | **Options UI** | Full per-format settings screens, persisted | Full per-format settings screens, persisted | Minimal fixed options |
-| **Sample PDFs** | 7 bundled samples | 7 bundled samples | 1 bundled sample |
+| **Sample PDFs** | 7 bundled samples | 7 bundled samples | 7 bundled samples, pickable in-app |
 | **Best for** | Evaluating the SDK, and 99% of production Kotlin apps | 99% of production Java apps (no coroutines needed) | Apps that already run native code and want the raw C++ entry points |
 
 All three projects are independent Gradle builds — each has its own `settings.gradle.kts` and Gradle wrapper, and all three consume the same AAR from the repo-root `SDK/libs/flyingbee/` drop-in folder. The Kotlin and Java demos share the same screens, formats and option trees; pick whichever language your app uses.
@@ -117,11 +117,12 @@ Notes:
 
 > ⚠️ **Windows users — short path required.** Before you begin, **unzip or clone the project into a short, ASCII-only path without spaces** (e.g. `E:\FPPDFConverter\` or `D:\Projects\FPPDF\`). Windows has a 260-character `MAX_PATH` limit, and Android Gradle builds (especially when NDK / CMake / `.cxx` native chains kick in) generate deeply nested intermediate directories that easily exceed it. Chinese characters, spaces and special characters in the path also break `make` / `clang` argument parsing. If your path is long or non-ASCII you will see cryptic "file not found" or "path too long" errors during Gradle sync or compile — moving the project to a short, clean path fixes 80% of them. This matters most for the **C++ demo**, which builds a CMake/NDK chain.
 
-Nothing needs to be dropped in before the first build — the two SDK binaries are **already in the repository**, one shared copy each:
+Nothing needs to be dropped in before the first build — the shared SDK binaries and sample library are **already in the repository**, one copy each:
 
 ```
 SDK/libs/flyingbee/FPPDFFramework-10.3.6.aar   (single committed AAR — do not duplicate)
 SDK/assets/Resources.bundle/                   (single committed runtime resources)
+SDK/assets/samples/                            (single committed sample PDF library)
 ```
 
 All three demos consume the same AAR through a relative file dependency in their `app/build.gradle.kts`:
@@ -130,7 +131,7 @@ All three demos consume the same AAR through a relative file dependency in their
 implementation(files("../../SDK/libs/flyingbee/FPPDFFramework-10.3.6.aar"))
 ```
 
-and each demo's `assets.srcDirs` pulls the shared `Resources.bundle` into its APK — no per-demo copies exist. See [`SDK/libs/flyingbee/README.md`](SDK/libs/flyingbee/README.md) and [`SDK/assets/README.md`](SDK/assets/README.md) for details.
+and each demo's `assets.srcDirs` pulls the shared `Resources.bundle` and `samples/` PDF library into its APK — no per-demo copies exist. See [`SDK/libs/flyingbee/README.md`](SDK/libs/flyingbee/README.md) and [`SDK/assets/README.md`](SDK/assets/README.md) for details.
 
 ### Kotlin Demo (Kotlin)
 
@@ -182,7 +183,7 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 Why the native link is manual instead of Prefab: `libFPPDFFramework.so` is a *shared* library with a privately, statically linked libc++ (self-contained delivery, no `libc++_shared.so` to ship). AGP's Prefab integration categorically rejects that combination for any consumer, so the demo unpacks the AAR at build time and links the imported `.so` + headers directly. The public API only crosses the boundary in C types and PODs, so two independent libc++ copies can never interact.
 
-All three demos share the single `Resources.bundle` in the repo-root `SDK/assets/` folder (wired in through each demo's `assets.srcDirs`) and unpack it on launch (Kotlin / Java demos via `FPPDFFramework.initialize()`, CPP demo via its own `SdkResources.kt`). The C++ demo additionally shows the correct JNI thread attach/detach pattern (`FPPDFFramework_jni.cpp`) and how to link the `.so` + headers manually instead of using Prefab.
+All three demos share the single `Resources.bundle` and the `samples/` PDF library in the repo-root `SDK/assets/` folder (wired in through each demo's `assets.srcDirs`) and unpack the bundle on launch (Kotlin / Java demos via `FPPDFFramework.initialize()`, CPP demo via its own `SdkResources.kt`). The C++ demo additionally shows the correct JNI thread attach/detach pattern (`FPPDFFramework_jni.cpp`) and how to link the `.so` + headers manually instead of using Prefab.
 
 > The C++ demo packages only `libFPPDFFramework.so` — it excludes the SDK's Kotlin bridge `libFPPDFFrameworkKotlin.so`, since it talks to the C++ API directly.
 
@@ -199,48 +200,49 @@ flyingbee-pdf-converter-sdk-android/
 │   ├── libs/flyingbee/                    single shared copy of the SDK AAR
 │   │   └── FPPDFFramework-10.3.6.aar      (consumed by all three demos via
 │   │                                       implementation(files("../../SDK/libs/...")))
-│   └── assets/                            single copy of the SDK runtime
-│       └── Resources.bundle/              resources (CMaps, OOXML templates,
-│                                          tessdata, fonts.conf) — pulled into
-│                                          all three APKs via assets.srcDirs
+│   └── assets/                            single copy of the shared demo assets
+│       ├── Resources.bundle/              runtime resources (CMaps, OOXML
+│       │                                  templates, tessdata, fonts.conf)
+│       └── samples/                       seven demo PDFs
+│                                          (both pulled into all three APKs
+│                                          via assets.srcDirs)
 ├── Kotlin/                                Kotlin API demo — no native code
 │   ├── app/
-│   │   ├── src/main/kotlin/com/flyingbee/FPPDFConverterDemo/
-│   │   │   ├── DemoApplication.kt         process-wide SDK init + controller
-│   │   │   ├── ConverterController.kt     state, options persistence,
-│   │   │   │                              conversion via the Kotlin SDK API
-│   │   │   ├── Models.kt                  enums / value tables shared with the UI
-│   │   │   ├── MainActivity.kt            Compose host, file picking, share/open intents
-│   │   │   ├── ScreenActivities.kt        per-screen Activities (multi-Activity nav)
-│   │   │   └── ui/                        Home, Settings (+5 sub-screens),
-│   │   │                                  sample & OCR pickers
-│   │   └── src/main/assets/samples/       seven demo PDFs
+│   │   └── src/main/kotlin/com/flyingbee/FPPDFConverterDemo/
+│   │       ├── DemoApplication.kt         process-wide SDK init + controller
+│   │       ├── ConverterController.kt     state, options persistence,
+│   │       │                              conversion via the Kotlin SDK API
+│   │       ├── Models.kt                  enums / value tables shared with the UI
+│   │       ├── MainActivity.kt            Compose host, file picking, share/open intents
+│   │       ├── ScreenActivities.kt        per-screen Activities (multi-Activity nav)
+│   │       └── ui/                        Home, Settings (+5 sub-screens),
+│   │                                      sample & OCR pickers
 │   └── build.gradle.kts / settings.gradle.kts / gradle/
 ├── Java/                                  Java API demo — no native code
 │   ├── app/
-│   │   ├── src/main/java/com/flyingbee/FPPDFConverterDemoJava/
-│   │   │   ├── DemoApplication.java       process-wide SDK init + controller
-│   │   │   ├── ConverterController.java   state, options persistence, conversion
-│   │   │   │                              via convertAsync + ConvertCallback
-│   │   │   ├── Models.java                enums / value tables shared with the UI
-│   │   │   ├── MainActivity.java          Home screen
-│   │   │   └── ui/                        BaseScreenActivity, sample & OCR
-│   │   │                                  pickers, settings/ (6 Activities)
-│   │   ├── src/main/res/layout/           XML layouts for every screen
-│   │   └── src/main/assets/samples/       seven demo PDFs
+│   │   └── src/main/
+│   │       ├── java/com/flyingbee/FPPDFConverterDemoJava/
+│   │       │   ├── DemoApplication.java   process-wide SDK init + controller
+│   │       │   ├── ConverterController.java state, options persistence, conversion
+│   │       │   │                              via convertAsync + ConvertCallback
+│   │       │   ├── Models.java            enums / value tables shared with the UI
+│   │       │   ├── MainActivity.java      Home screen
+│   │       │   └── ui/                    BaseScreenActivity, sample & OCR
+│   │       │                              pickers, settings/ (6 Activities)
+│   │       └── res/layout/                XML layouts for every screen
 │   └── build.gradle.kts / settings.gradle.kts / gradle/
 └── CPP/                                   C++ API demo — own JNI bridge
     ├── app/
-    │   ├── src/main/cpp/
-    │   │   ├── CMakeLists.txt             links libFPPDFFramework.so + public headers
-    │   │   └── FPPDFFramework_jni.cpp     JNI bridge (attach/detach RAII guard)
-    │   ├── src/main/kotlin/com/flyingbee/FPPDFConverterDemoCpp/
-    │   │   ├── FPPDFNative.kt             1:1 Kotlin view of the JNI exports
-    │   │   ├── SdkResources.kt            manual Resources.bundle unpack +
-    │   │   │                              SetResourceRootFolder
-    │   │   ├── ConverterController.kt     conversion flow via the C++ API
-    │   │   └── MainActivity.kt            Compose host
-    │   └── src/main/assets/samples/       one demo PDF
+    │   └── src/main/
+    │       ├── cpp/
+    │       │   ├── CMakeLists.txt         links libFPPDFFramework.so + public headers
+    │       │   └── FPPDFFramework_jni.cpp JNI bridge (attach/detach RAII guard)
+    │       └── kotlin/com/flyingbee/FPPDFConverterDemoCpp/
+    │           ├── FPPDFNative.kt         1:1 Kotlin view of the JNI exports
+    │           ├── SdkResources.kt        manual Resources.bundle unpack +
+    │           │                          SetResourceRootFolder
+    │           ├── ConverterController.kt conversion flow via the C++ API
+    │           └── MainActivity.kt        Compose host + bundled sample picker
     └── build.gradle.kts / settings.gradle.kts / gradle/
 ```
 

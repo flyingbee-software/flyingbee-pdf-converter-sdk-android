@@ -10,6 +10,7 @@ The SDK version matches `FPPDFFramework_Version` in `FPPDFFramework.h`.
 - **Kotlin demo navigation.** Switched from a single-activity `NavHost` to multi-Activity navigation (`DemoApplication.kt` + `ScreenActivities.kt`), aligned with the Java demo's per-screen Activities.
 - **Resources.bundle consolidated.** The three identical per-demo copies of `Resources.bundle/` (~74 MB each) were replaced by a single repo-root `SDK/assets/Resources.bundle/`, pulled into every demo APK through `assets.srcDirs` in each `app/build.gradle.kts`. Clone the repo once, build all three demos with no extra copying.
 - **SDK AAR consolidated.** The three identical per-demo copies of `FPPDFFramework-10.3.6.aar` (~64 MB each) were replaced by a single repo-root `SDK/libs/flyingbee/FPPDFFramework-10.3.6.aar`, consumed by all three demos through a relative file dependency (`implementation(files("../../SDK/libs/flyingbee/..."))`). The per-demo `app/libs/` folders are gone.
+- **Sample PDFs consolidated.** The per-demo `app/src/main/assets/samples/` folders were replaced by a single repo-root `SDK/assets/samples/` library of seven PDFs, merged into every demo APK through the same `assets.srcDirs` wiring as `Resources.bundle`. The CPP demo gained an in-app picker so any of the seven samples can feed a conversion (previously it shipped a single bundled PDF).
 - **CI.** GitHub Actions workflows updated for the new folder names; a Java demo workflow was added.
 
 ## 10.3.6.0 (Android) — 2026-09
