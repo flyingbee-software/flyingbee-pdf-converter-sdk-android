@@ -43,6 +43,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
@@ -435,7 +437,11 @@ public final class ConverterController {
                 String[] all = appContext.getAssets().list("samples");
                 List<String> names = new ArrayList<>();
                 if (all != null) for (String s : all) if (s.endsWith(".pdf")) names.add(s);
-                names.sort(null);
+                // Use Collections.sort() instead of the Java 8 List#sort default method:
+                // some Android ROMs ship a core-libart.jar where the default
+                // method slot is missing, which causes NoSuchMethodError on
+                // devices that otherwise look modern (Pixel 10, Android 16).
+                Collections.sort(names);
                 final List<BundledSample> list = new ArrayList<>();
                 for (String asset : names) {
                     File dest = new File(inputsDir(), asset.substring(asset.lastIndexOf('/') + 1));
@@ -836,7 +842,9 @@ public final class ConverterController {
             lastOutputFile = dest;
             List<File> files = new ArrayList<>();
             collectFiles(dest, files);
-            files.sort((a, b) -> a.getName().compareTo(b.getName()));
+            Collections.sort(files, new Comparator<File>() {
+                @Override public int compare(File a, File b) { return a.getName().compareTo(b.getName()); }
+            });
             long total = 0;
             List<OutputFileItem> items = new ArrayList<>();
             for (File f : files) {

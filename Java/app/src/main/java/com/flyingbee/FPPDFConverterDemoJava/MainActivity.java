@@ -226,7 +226,11 @@ public final class MainActivity extends AppCompatActivity implements ConverterCo
             pb.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, (int) (4 * d)));
             int v = Math.round(Math.max(0f, Math.min(1f, controller.progressValue)) * 1000f);
-            pb.setMin(0);
+            // Don't call setMin(int): ProgressBar#setMin was added in API 26.
+            // On older devices (e.g. the Nexus 5X running API 23) neither
+            // LinearProgressIndicator nor its superclass has that method,
+            // and calling it throws NoSuchMethodError. ProgressBar's default
+            // min is already 0, so we only need setMax + setProgress.
             pb.setMax(1000);
             pb.setProgress(v);
             box.addView(pb);
