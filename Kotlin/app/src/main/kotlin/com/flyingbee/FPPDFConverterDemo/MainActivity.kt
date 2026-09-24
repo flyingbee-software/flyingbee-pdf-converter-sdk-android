@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         // Java demo's SystemBarStyle.light).
         enableEdgeToEdge(
             statusBarStyle = androidx.activity.SystemBarStyle.light(0, 0),
-            navigationBarStyle = androidx.activity.SystemBarStyle.light(0, 0),
+            navigationBarStyle = androidx.activity.SystemBarStyle.dark(android.graphics.Color.BLACK),
         )
 
         controller = ConverterController.shared

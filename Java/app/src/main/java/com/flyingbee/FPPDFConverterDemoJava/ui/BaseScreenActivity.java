@@ -36,7 +36,9 @@ public abstract class BaseScreenActivity extends AppCompatActivity
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        androidx.activity.EdgeToEdge.enable(this);
+        androidx.activity.EdgeToEdge.enable(this,
+            androidx.activity.SystemBarStyle.light(0, 0),
+            androidx.activity.SystemBarStyle.dark(android.graphics.Color.BLACK));
         setContentView(R.layout.activity_screen);
         controller = ConverterController.get();
 

@@ -437,10 +437,9 @@ public final class ConverterController {
                 String[] all = appContext.getAssets().list("samples");
                 List<String> names = new ArrayList<>();
                 if (all != null) for (String s : all) if (s.endsWith(".pdf")) names.add(s);
-                // Use Collections.sort() instead of the Java 8 List#sort default method:
-                // some Android ROMs ship a core-libart.jar where the default
-                // method slot is missing, which causes NoSuchMethodError on
-                // devices that otherwise look modern (Pixel 10, Android 16).
+                // Collections.sort() instead of List#sort(): the Java 8 default
+                // method is missing from some ROMs' core-libart.jar and throws
+                // NoSuchMethodError at runtime (seen on API 23).
                 Collections.sort(names);
                 final List<BundledSample> list = new ArrayList<>();
                 for (String asset : names) {

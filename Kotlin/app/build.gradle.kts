@@ -48,9 +48,9 @@ android {
 
     sourceSets {
         getByName("main") {
-            // Resources.bundle is shared by all three demos from the repo-root
-            // SDK/assets/ folder (see SDK/assets/README.md); AGP merges
-            // it into the APK's assets alongside the local samples/ folder.
+            // Resources.bundle and the samples/ PDF library are shared by all
+            // three demos from the repo-root SDK/assets/ folder (see
+            // SDK/assets/README.md); AGP merges them into the APK's assets.
             assets.directories.add("../../SDK/assets")
         }
     }

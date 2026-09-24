@@ -41,7 +41,7 @@ abstract class ComposeScreenActivity : AppCompatActivity() {
         // the Java demo's SystemBarStyle.light and MainActivity).
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.light(0, 0),
-            navigationBarStyle = SystemBarStyle.light(0, 0),
+            navigationBarStyle = SystemBarStyle.dark(android.graphics.Color.BLACK),
         )
         controller.attachUiContext(this)
         setContent {

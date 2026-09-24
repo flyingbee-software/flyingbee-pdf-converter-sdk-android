@@ -58,7 +58,7 @@ public final class MainActivity extends AppCompatActivity implements ConverterCo
         // white top bar regardless of the system dark-mode setting.
         androidx.activity.EdgeToEdge.enable(this,
             androidx.activity.SystemBarStyle.light(0, 0),
-            androidx.activity.SystemBarStyle.light(0, 0));
+            androidx.activity.SystemBarStyle.dark(android.graphics.Color.BLACK));
         setContentView(R.layout.activity_home);
         controller = ConverterController.get();
 
@@ -226,11 +226,8 @@ public final class MainActivity extends AppCompatActivity implements ConverterCo
             pb.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, (int) (4 * d)));
             int v = Math.round(Math.max(0f, Math.min(1f, controller.progressValue)) * 1000f);
-            // Don't call setMin(int): ProgressBar#setMin was added in API 26.
-            // On older devices (e.g. the Nexus 5X running API 23) neither
-            // LinearProgressIndicator nor its superclass has that method,
-            // and calling it throws NoSuchMethodError. ProgressBar's default
-            // min is already 0, so we only need setMax + setProgress.
+            // No setMin(0): ProgressBar#setMin requires API 26 and throws
+            // NoSuchMethodError on older devices. Default min is already 0.
             pb.setMax(1000);
             pb.setProgress(v);
             box.addView(pb);

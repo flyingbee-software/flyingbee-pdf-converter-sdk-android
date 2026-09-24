@@ -21,12 +21,22 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
@@ -44,6 +54,7 @@ import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -77,10 +88,53 @@ class MainActivity : AppCompatActivity() {
                         Text("FPPDFFramework - C++ API Demo", style = MaterialTheme.typography.headlineSmall)
                         Text(controller.sdkVersionText, style = MaterialTheme.typography.bodyMedium)
                         Text("License: ${controller.licenseText}", style = MaterialTheme.typography.bodyMedium)
-                        Text(
-                            "Sample: FPPDFSample.pdf (${controller.samplePageCount} pages)",
-                            style = MaterialTheme.typography.bodyMedium,
-                        )
+
+                        // Bundled PDF picker: the samples/ library is shared by
+                        // all three demos (see SDK/assets/README.md), so pick
+                        // which one feeds the conversion below.
+                        var expanded by remember { mutableStateOf(false) }
+                        ExposedDropdownMenuBox(
+                            expanded = expanded,
+                            onExpandedChange = { expanded = it && controller.samples.isNotEmpty() },
+                        ) {
+                            OutlinedTextField(
+                                value = "${controller.sampleName} " +
+                                    getString(R.string.sample_meta, controller.samplePageCount),
+                                onValueChange = {},
+                                readOnly = true,
+                                enabled = !controller.isConverting && controller.samples.isNotEmpty(),
+                                label = { Text(getString(R.string.sample_label)) },
+                                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded) },
+                                colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+                                modifier = Modifier
+                                    .menuAnchor(MenuAnchorType.PrimaryNotEditable)
+                                    .fillMaxWidth(),
+                            )
+                            ExposedDropdownMenu(
+                                expanded = expanded,
+                                onDismissRequest = { expanded = false },
+                            ) {
+                                controller.samples.forEach { sample ->
+                                    DropdownMenuItem(
+                                        text = {
+                                            Column {
+                                                Text(sample.assetName)
+                                                Text(
+                                                    getString(R.string.sample_meta, sample.pages) +
+                                                        " · ${sample.sizeText}",
+                                                    style = MaterialTheme.typography.bodySmall,
+                                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                )
+                                            }
+                                        },
+                                        onClick = {
+                                            controller.selectSample(sample)
+                                            expanded = false
+                                        },
+                                    )
+                                }
+                            }
+                        }
 
                         Spacer(Modifier.height(8.dp))
 

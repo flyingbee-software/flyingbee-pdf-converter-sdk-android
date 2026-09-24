@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">FPPDFFramework C++ Demo</string>
+    <string name="sample_label">Bundled PDF</string>
+    <string name="sample_meta">%1$d pages</string>
     <string name="convert_docx">Convert sample PDF to DOCX</string>
     <string name="convert_docx_ocr">Convert sample PDF to DOCX (OCR)</string>
     <string name="convert_png">Convert sample PDF to PNG</string>

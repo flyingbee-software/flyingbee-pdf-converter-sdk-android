@@ -33,6 +33,14 @@ class ConverterController(app: Application) : AndroidViewModel(app), FPPDFDelega
     var samplePageCount: Int by mutableStateOf(0)
         private set
 
+    /** The bundled PDFs currently selected for conversion. */
+    var sampleName: String by mutableStateOf(DEFAULT_SAMPLE)
+        private set
+
+    /** Every bundled sample PDF shipped in the APK, with page count and size. */
+    var samples: List<BundledSample> by mutableStateOf(emptyList())
+        private set
+
     // Files produced by the last successful conversion, flattened for the
     // result list. Folder outputs (e.g. PNG, one image per page) enumerate
     // every contained file; single-file outputs (e.g. DOCX) list one item.
@@ -92,12 +100,14 @@ class ConverterController(app: Application) : AndroidViewModel(app), FPPDFDelega
                 val release = FPPDFNative.releaseDate()
                 val org = FPPDFNative.licenseOrganization()
                 val expiry = FPPDFNative.licenseExpiredDate()
+                val list = loadSampleLibrary()
                 val pages = pageCountOf(sampleFile())
                 mainHandler.post {
                     sdkVersionText = "$version ($release)"
                     licenseText = "$org / $expiry"
+                    samples = list
                     samplePageCount = pages
-                    statusMessage = "Ready. The bundled sample has $pages pages."
+                    statusMessage = "Ready. \"$sampleName\" has $pages pages."
                 }
             } catch (t: Throwable) {
                 mainHandler.post {
@@ -118,16 +128,48 @@ class ConverterController(app: Application) : AndroidViewModel(app), FPPDFDelega
 
     // === Sample =================================================================
 
-    /** The bundled sample PDF, copied out of assets/ on first launch. */
+    /**
+     * The bundled sample PDF currently selected in the UI, copied out of
+     * `assets/samples/` (shared by all three demos; see SDK/assets/README.md)
+     * on first use.
+     */
     private fun sampleFile(): File {
-        val dest = File(appContext.filesDir, "samples/FPPDFSample.pdf")
+        val dest = File(appContext.filesDir, "samples/$sampleName")
         if (!dest.exists() || dest.length() == 0L) {
             dest.parentFile?.mkdirs()
-            appContext.assets.open("samples/FPPDFSample.pdf").use { input ->
+            appContext.assets.open("samples/$sampleName").use { input ->
                 dest.outputStream().use { output -> input.copyTo(output) }
             }
         }
         return dest
+    }
+
+    /**
+     * Enumerates the bundled sample library with page count and size, copying
+     * each PDF into filesDir so the native SDK can open it by path. Runs on a
+     * worker thread (called from [startup]).
+     */
+    private fun loadSampleLibrary(): List<BundledSample> {
+        val names = appContext.assets.list(SAMPLES_ASSET_DIR)?.filter { it.endsWith(".pdf") }?.sorted()
+            ?: emptyList()
+        return names.map { asset ->
+            val dest = File(appContext.filesDir, "samples/$asset")
+            if (!dest.exists() || dest.length() == 0L) {
+                dest.parentFile?.mkdirs()
+                appContext.assets.open("$SAMPLES_ASSET_DIR/$asset").use { input ->
+                    dest.outputStream().use { output -> input.copyTo(output) }
+                }
+            }
+            BundledSample(asset, pageCountOf(dest).coerceAtLeast(1), fileSizeText(dest.length()))
+        }
+    }
+
+    /** Picks one of the bundled PDFs as the conversion source. */
+    fun selectSample(sample: BundledSample) {
+        if (isConverting || sample.assetName == sampleName) return
+        sampleName = sample.assetName
+        samplePageCount = sample.pages
+        statusMessage = "Sample: ${sample.assetName} (${sample.pages} pages)"
     }
 
     private fun pageCountOf(file: File): Int {
@@ -285,7 +327,17 @@ class ConverterController(app: Application) : AndroidViewModel(app), FPPDFDelega
             statusMessage = "Exception caught inside the SDK."
         }
     }
+
+    companion object {
+        /** The PDF selected on first launch. */
+        const val DEFAULT_SAMPLE = "FPPDFSample.pdf"
+        private const val SAMPLES_ASSET_DIR = "samples"
+    }
 }
+
+/** One entry of the bundled sample library: the asset file name plus its
+ *  page count and human-readable size for display. */
+data class BundledSample(val assetName: String, val pages: Int, val sizeText: String)
 
 /** One row in the conversion result list: the produced file plus its
  *  human-readable size for display. */
