@@ -73,7 +73,7 @@ Experience the full power of our PDF conversion SDK before integrating it into y
 | **Sample PDFs** | 7 bundled samples | 7 bundled samples | 1 bundled sample |
 | **Best for** | Evaluating the SDK, and 99% of production Kotlin apps | 99% of production Java apps (no coroutines needed) | Apps that already run native code and want the raw C++ entry points |
 
-All three projects are independent Gradle builds — each has its own `settings.gradle.kts`, Gradle wrapper and `app/libs/flyingbee/` drop-in folder for the AAR. The Kotlin and Java demos share the same screens, formats and option trees; pick whichever language your app uses.
+All three projects are independent Gradle builds — each has its own `settings.gradle.kts` and Gradle wrapper, and all three consume the same AAR from the repo-root `libs/flyingbee/` drop-in folder. The Kotlin and Java demos share the same screens, formats and option trees; pick whichever language your app uses.
 
 ## Requirements
 
@@ -117,17 +117,20 @@ Notes:
 
 > ⚠️ **Windows users — short path required.** Before you begin, **unzip or clone the project into a short, ASCII-only path without spaces** (e.g. `E:\FPPDFConverter\` or `D:\Projects\FPPDF\`). Windows has a 260-character `MAX_PATH` limit, and Android Gradle builds (especially when NDK / CMake / `.cxx` native chains kick in) generate deeply nested intermediate directories that easily exceed it. Chinese characters, spaces and special characters in the path also break `make` / `clang` argument parsing. If your path is long or non-ASCII you will see cryptic "file not found" or "path too long" errors during Gradle sync or compile — moving the project to a short, clean path fixes 80% of them. This matters most for the **C++ demo**, which builds a CMake/NDK chain.
 
-All three projects need one thing dropped in before the first build:
+Nothing needs to be dropped in before the first build — the two SDK binaries are **already in the repository**, one shared copy each:
 
 ```
-Kotlin/app/libs/flyingbee/FPPDFFramework-10.3.6.aar
-Java/app/libs/flyingbee/FPPDFFramework-10.3.6.aar
-CPP/app/libs/flyingbee/FPPDFFramework-10.3.6.aar
+libs/flyingbee/FPPDFFramework-10.3.6.aar   (single committed AAR — do not duplicate)
+shared-assets/Resources.bundle/            (single committed runtime resources)
 ```
 
-The runtime resources are **already in the repository**: a single `Resources.bundle/` lives at the repo root in [`shared-assets/`](shared-assets/), and all three demos pull it into their APK via `assets.srcDirs(...)` — no per-demo copy is needed.
+All three demos consume the same AAR through a relative file dependency in their `app/build.gradle.kts`:
 
-See `app/libs/flyingbee/README.md` in each project.
+```kotlin
+implementation(files("../../libs/flyingbee/FPPDFFramework-10.3.6.aar"))
+```
+
+and each demo's `assets.srcDirs` pulls the shared `Resources.bundle` into its APK — no per-demo copies exist. See [`libs/flyingbee/README.md`](libs/flyingbee/README.md) and [`shared-assets/README.md`](shared-assets/README.md) for details.
 
 ### Kotlin Demo (Kotlin)
 
@@ -192,13 +195,15 @@ flyingbee-pdf-converter-sdk-android/
 ├── FPPDFFramework Android SDK Integration Guide.md
 │                                          full options reference + workflows
 ├── LICENSE                                Apache 2.0 (demo source only)
+├── libs/flyingbee/                        single shared copy of the SDK AAR
+│   └── FPPDFFramework-10.3.6.aar          (consumed by all three demos via
+│                                          implementation(files("../../libs/...")))
 ├── shared-assets/                         single copy of the SDK runtime
 │   └── Resources.bundle/                  resources (CMaps, OOXML templates,
 │                                          tessdata, fonts.conf) — pulled into
 │                                          all three APKs via assets.srcDirs
 ├── Kotlin/                                Kotlin API demo — no native code
 │   ├── app/
-│   │   ├── libs/flyingbee/                drop FPPDFFramework-10.3.6.aar here
 │   │   ├── src/main/kotlin/com/flyingbee/FPPDFConverterDemo/
 │   │   │   ├── DemoApplication.kt         process-wide SDK init + controller
 │   │   │   ├── ConverterController.kt     state, options persistence,
@@ -212,7 +217,6 @@ flyingbee-pdf-converter-sdk-android/
 │   └── build.gradle.kts / settings.gradle.kts / gradle/
 ├── Java/                                  Java API demo — no native code
 │   ├── app/
-│   │   ├── libs/flyingbee/                drop FPPDFFramework-10.3.6.aar here
 │   │   ├── src/main/java/com/flyingbee/FPPDFConverterDemoJava/
 │   │   │   ├── DemoApplication.java       process-wide SDK init + controller
 │   │   │   ├── ConverterController.java   state, options persistence, conversion
@@ -226,7 +230,6 @@ flyingbee-pdf-converter-sdk-android/
 │   └── build.gradle.kts / settings.gradle.kts / gradle/
 └── CPP/                                   C++ API demo — own JNI bridge
     ├── app/
-    │   ├── libs/flyingbee/                drop FPPDFFramework-10.3.6.aar here
     │   ├── src/main/cpp/
     │   │   ├── CMakeLists.txt             links libFPPDFFramework.so + public headers
     │   │   └── FPPDFFramework_jni.cpp     JNI bridge (attach/detach RAII guard)
@@ -272,7 +275,7 @@ The Kotlin demo consumes the SDK exactly as a customer app should. Four pieces a
 
 ### 1. Depend on the AAR
 
-Copy `app/libs/flyingbee/FPPDFFramework-10.3.6.aar` into your own app (e.g. `app/libs/`), then declare it as a file dependency:
+Copy `libs/flyingbee/FPPDFFramework-10.3.6.aar` (the repo-root shared copy) into your own app (e.g. `app/libs/`), then declare it as a file dependency:
 
 ```kotlin
 dependencies {

@@ -55,7 +55,7 @@ The SDK never touches the network, camera or location: all processing is on-devi
 
 ### 1. Add the AAR
 
-Copy `app/libs/flyingbee/FPPDFFramework-10.3.6.aar` from the demo into your project (e.g. `app/libs/`) and declare it as a file dependency. The Kotlin API uses coroutines, so add `kotlinx-coroutines-android` as well:
+Copy `libs/flyingbee/FPPDFFramework-10.3.6.aar` (the repo-root shared copy used by the demos) into your project (e.g. `app/libs/`) and declare it as a file dependency. The Kotlin API uses coroutines, so add `kotlinx-coroutines-android` as well:
 
 ```kotlin
 dependencies {
@@ -66,7 +66,7 @@ dependencies {
 
 No `settings.gradle.kts` repository changes are needed. AGP merges the Kotlin classes and the per-ABI native libraries into your APK automatically.
 
-> The AAR is a commercial binary. Drop it into `app/libs/flyingbee/` before the first build; see `app/libs/flyingbee/README.md` in either demo project. You must also ship the `Resources.bundle/` folder in your app at `app/src/main/assets/Resources.bundle/` — it is no longer baked into the AAR. (In this repository the demos share one committed copy at the root [`shared-assets/Resources.bundle/`](shared-assets/), merged into every APK via `assets.srcDirs`; in your own app just copy the folder into your assets.)
+> The AAR is a commercial binary. In this repository the demos share one committed copy at the root [`libs/flyingbee/`](libs/flyingbee/), consumed by all three via `implementation(files("../../libs/flyingbee/..."))` (see [`libs/flyingbee/README.md`](libs/flyingbee/README.md)); in your own app place the AAR under `app/libs/` (or any path you reference) and declare it as a file dependency. You must also ship the `Resources.bundle/` folder in your app at `app/src/main/assets/Resources.bundle/` — it is no longer baked into the AAR. (In this repository the demos share one committed copy at the root [`shared-assets/Resources.bundle/`](shared-assets/), merged into every APK via `assets.srcDirs`; in your own app just copy the folder into your assets.)
 
 ### 2. Initialize the SDK (required)
 

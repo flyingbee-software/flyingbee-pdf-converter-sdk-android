@@ -3,8 +3,8 @@
 //
 // Demonstrates the Flyingbee FPPDFFramework Android SDK end-to-end through its
 // Kotlin API layer:
-//   * the SDK is consumed as a direct AAR dependency from
-//     app/libs/flyingbee/FPPDFFramework-10.3.6.aar;
+//   * the SDK is consumed as a direct AAR dependency from the repo-root
+//     libs/flyingbee/FPPDFFramework-10.3.6.aar (shared by all three demos);
 //   * the AAR carries the public Kotlin classes (com.flyingbee.FPPDFFramework)
 //     plus the self-contained native libraries (libFPPDFFramework.so and the
 //     libFPPDFFrameworkKotlin.so JNI bridge, 4 ABIs), which AGP merges into
@@ -79,10 +79,11 @@ android {
 }
 
 dependencies {
-    // The Flyingbee PDF Conversion SDK, bundled as a direct AAR file. The
+    // The Flyingbee PDF Conversion SDK, bundled as a direct AAR file shared by
+    // all three demos from the repo-root libs/flyingbee/ folder. The
     // Kotlin API layer ships inside the same AAR (classes.jar + the JNI bridge
     // libraries); nothing else is needed on the consumer side.
-    implementation(files("libs/flyingbee/FPPDFFramework-10.3.6.aar"))
+    implementation(files("../../libs/flyingbee/FPPDFFramework-10.3.6.aar"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
