@@ -239,15 +239,27 @@ public final class MainActivity extends AppCompatActivity implements ConverterCo
         else statusColor = ContextCompat.getColor(this, R.color.on_surface_variant);
         Rows.bodyText(this, box, status, 0, 0).setTextColor(statusColor);
 
-        // StartStopRow: full-width coloured button.
+        // StartStopRow: full-width coloured button. Mirrors the Kotlin demo's
+        // Compose Button: disabled (grey, Material3 onSurface alphas) until an
+        // input file is selected; red stop while converting; green start otherwise.
         final boolean converting = controller.isConverting;
         MaterialButton btn = new MaterialButton(this);
         btn.setText(converting ? R.string.stop : R.string.start_conversion);
         btn.setIconResource(converting ? R.drawable.ic_stop : R.drawable.ic_play);
         btn.setIconGravity(MaterialButton.ICON_GRAVITY_TEXT_START);
-        btn.setBackgroundTintList(android.content.res.ColorStateList.valueOf(
-            ContextCompat.getColor(this, converting ? R.color.btn_stop : R.color.btn_start)));
-        btn.setTextColor(ContextCompat.getColor(this, R.color.white));
+        int[][] states = new int[][] {
+            new int[] { android.R.attr.state_enabled },
+            new int[] { -android.R.attr.state_enabled },
+        };
+        int baseColor = ContextCompat.getColor(this, converting ? R.color.btn_stop : R.color.btn_start);
+        btn.setBackgroundTintList(new android.content.res.ColorStateList(states, new int[] {
+            baseColor,
+            0x1F1C1B1F, // onSurface @ 12% — Compose disabledContainerColor
+        }));
+        btn.setTextColor(new android.content.res.ColorStateList(states, new int[] {
+            ContextCompat.getColor(this, R.color.white),
+            0x611C1B1F, // onSurface @ 38% — Compose disabledContentColor
+        }));
         btn.setEnabled(converting || controller.selectedFile != null);
         btn.setOnClickListener(v -> {
             if (controller.isConverting) controller.stopConversion();
