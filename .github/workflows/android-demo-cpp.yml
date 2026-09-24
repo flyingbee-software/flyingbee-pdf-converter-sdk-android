@@ -95,7 +95,7 @@ jobs:
 
       - name: Check bundled SDK AAR
         run: |
-          if [ ! -f ../../SDK/libs/flyingbee/FPPDFFramework-10.3.6.aar ]; then
+          if [ ! -f ../SDK/libs/flyingbee/FPPDFFramework-10.3.6.aar ]; then
             echo "::error::FPPDFFramework-10.3.6.aar is missing from the repo-root SDK/libs/flyingbee/."
             echo "::error::Commit it, or restore it from a secret before this step"
             echo "::error::(e.g. a base64 repo secret decoded into that path)."
