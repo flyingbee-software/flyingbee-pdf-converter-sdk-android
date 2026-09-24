@@ -8,7 +8,7 @@ adds it to the main source set:
 ```kotlin
 sourceSets {
     getByName("main") {
-        assets.directories.add("../../Shared/assets")
+        assets.directories.add("../../SDK/assets")
     }
 }
 ```

@@ -11,7 +11,7 @@ Each demo references it as a direct file dependency from its
 `app/build.gradle.kts`:
 
 ```kotlin
-implementation(files("../../Shared/libs/flyingbee/FPPDFFramework-10.3.6.aar"))
+implementation(files("../../SDK/libs/flyingbee/FPPDFFramework-10.3.6.aar"))
 ```
 
 Why one shared copy:

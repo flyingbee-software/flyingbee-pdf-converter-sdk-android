@@ -55,7 +55,7 @@ The SDK never touches the network, camera or location: all processing is on-devi
 
 ### 1. Add the AAR
 
-Copy `Shared/libs/flyingbee/FPPDFFramework-10.3.6.aar` (the repo-root shared copy used by the demos) into your project (e.g. `app/libs/`) and declare it as a file dependency. The Kotlin API uses coroutines, so add `kotlinx-coroutines-android` as well:
+Copy `SDK/libs/flyingbee/FPPDFFramework-10.3.6.aar` (the repo-root shared copy used by the demos) into your project (e.g. `app/libs/`) and declare it as a file dependency. The Kotlin API uses coroutines, so add `kotlinx-coroutines-android` as well:
 
 ```kotlin
 dependencies {
@@ -66,7 +66,7 @@ dependencies {
 
 No `settings.gradle.kts` repository changes are needed. AGP merges the Kotlin classes and the per-ABI native libraries into your APK automatically.
 
-> The AAR is a commercial binary. In this repository the demos share one committed copy at the root [`Shared/libs/flyingbee/`](Shared/libs/flyingbee/), consumed by all three via `implementation(files("../../Shared/libs/flyingbee/..."))` (see [`Shared/libs/flyingbee/README.md`](Shared/libs/flyingbee/README.md)); in your own app place the AAR under `app/libs/` (or any path you reference) and declare it as a file dependency. You must also ship the `Resources.bundle/` folder in your app at `app/src/main/assets/Resources.bundle/` — it is no longer baked into the AAR. (In this repository the demos share one committed copy at the root [`Shared/assets/Resources.bundle/`](Shared/assets/), merged into every APK via `assets.srcDirs`; in your own app just copy the folder into your assets.)
+> The AAR is a commercial binary. In this repository the demos share one committed copy at the root [`SDK/libs/flyingbee/`](SDK/libs/flyingbee/), consumed by all three via `implementation(files("../../SDK/libs/flyingbee/..."))` (see [`SDK/libs/flyingbee/README.md`](SDK/libs/flyingbee/README.md)); in your own app place the AAR under `app/libs/` (or any path you reference) and declare it as a file dependency. You must also ship the `Resources.bundle/` folder in your app at `app/src/main/assets/Resources.bundle/` — it is no longer baked into the AAR. (In this repository the demos share one committed copy at the root [`SDK/assets/Resources.bundle/`](SDK/assets/), merged into every APK via `assets.srcDirs`; in your own app just copy the folder into your assets.)
 
 ### 2. Initialize the SDK (required)
 
@@ -365,7 +365,7 @@ A: Usually a missing or mismatched native library: `initialize()` checks that `l
 
 **Q: Do I need to ship or unpack `Resources.bundle` myself?**
 
-A: **Yes.** `Resources.bundle` is no longer inside the AAR — you must copy it from the SDK drop (or from this repository's root `Shared/assets/Resources.bundle/`) into your own app at `app/src/main/assets/Resources.bundle/`. AGP then merges it into the APK. `FPPDFFramework.initialize()` unpacks it to internal storage on first launch; if you drive the C++ API natively, your code must call `FPPDF2AllConverter::SetResourceRootFolder` after unpacking it yourself (see the CPP demo's `SdkResources.kt`).
+A: **Yes.** `Resources.bundle` is no longer inside the AAR — you must copy it from the SDK drop (or from this repository's root `SDK/assets/Resources.bundle/`) into your own app at `app/src/main/assets/Resources.bundle/`. AGP then merges it into the APK. `FPPDFFramework.initialize()` unpacks it to internal storage on first launch; if you drive the C++ API natively, your code must call `FPPDF2AllConverter::SetResourceRootFolder` after unpacking it yourself (see the CPP demo's `SdkResources.kt`).
 
 **Q: Can I convert specific pages instead of the whole document?**
 

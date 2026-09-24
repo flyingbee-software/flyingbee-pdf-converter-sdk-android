@@ -4,7 +4,7 @@
 // Demonstrates integrating the Flyingbee FPPDFFramework Android SDK through
 // its C++ API instead of the bundled Kotlin layer:
 //   * the SDK is consumed as a direct AAR dependency from the repo-root
-//     Shared/libs/flyingbee/FPPDFFramework-10.3.6.aar (shared by all three demos).
+//     SDK/libs/flyingbee/FPPDFFramework-10.3.6.aar (shared by all three demos).
 //     AGP merges the AAR's jni/<abi>/libFPPDFFramework.so into the APK
 //     automatically;
 //   * app/src/main/cpp/FPPDFFramework_jni.cpp is the app's own JNI bridge that
@@ -36,7 +36,7 @@ plugins {
 // The bundled SDK AAR, unpacked once per build into build/fppdf-sdk so the
 // native build can link against jni/<abi>/libFPPDFFramework.so and include
 // the three public headers from prefab/modules/FPPDFFramework/include.
-val sdkAar = file("../../Shared/libs/flyingbee/FPPDFFramework-10.3.6.aar")
+val sdkAar = file("../../SDK/libs/flyingbee/FPPDFFramework-10.3.6.aar")
 val sdkUnpackDir = layout.buildDirectory.dir("fppdf-sdk")
 
 val unpackFppdfSdk = tasks.register<Copy>("unpackFppdfSdk") {
@@ -94,9 +94,9 @@ android {
     sourceSets {
         getByName("main") {
             // Resources.bundle is shared by all three demos from the repo-root
-            // Shared/assets/ folder (see Shared/assets/README.md); AGP merges
+            // SDK/assets/ folder (see SDK/assets/README.md); AGP merges
             // it into the APK's assets alongside the local samples/ folder.
-            assets.directories.add("../../Shared/assets")
+            assets.directories.add("../../SDK/assets")
         }
     }
 
@@ -143,12 +143,12 @@ tasks.matching {
 
 dependencies {
     // The Flyingbee PDF Conversion SDK, bundled as a direct AAR file shared by
-    // all three demos from the repo-root Shared/libs/flyingbee/ folder.
+    // all three demos from the repo-root SDK/libs/flyingbee/ folder.
     // AGP merges its self-contained libFPPDFFramework.so (4 ABIs) from the
     // AAR's jni/ folder into the APK; the native link step uses the unpacked
     // copy instead (see unpackFppdfSdk).  This demo drives the C++ API, so it
     // only needs the .so + headers, not the Kotlin classes.jar.
-    implementation(files("../../Shared/libs/flyingbee/FPPDFFramework-10.3.6.aar"))
+    implementation(files("../../SDK/libs/flyingbee/FPPDFFramework-10.3.6.aar"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
