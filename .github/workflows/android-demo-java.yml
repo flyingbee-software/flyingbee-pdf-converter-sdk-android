@@ -8,7 +8,7 @@
 #   auto-provisioning a toolchain from foojay.io at build time. (AGP 9.4 needs
 #   JDK 17 or newer - JDK 11, as in the stock Android CI template, fails here.)
 #
-# The SDK is consumed as a direct AAR file (repo-root libs/flyingbee/
+# The SDK is consumed as a direct AAR file (repo-root Shared/libs/flyingbee/
 # FPPDFFramework-10.3.6.aar), which is committed to this repository, so no
 # credentials are needed. If you ever remove it from git, restore it from a
 # secret before the build step (see the note in the "Check bundled SDK AAR" step).
@@ -23,16 +23,14 @@ on:
     branches: ["main", "master"]
     paths:
       - "Java/**"
-      - "shared-assets/**"
-      - "libs/**"
+      - "Shared/**"
       - ".gitattributes"
       - ".github/workflows/android-demo-java.yml"
   pull_request:
     branches: ["main", "master"]
     paths:
       - "Java/**"
-      - "shared-assets/**"
-      - "libs/**"
+      - "Shared/**"
       - ".gitattributes"
       - ".github/workflows/android-demo-java.yml"
   workflow_dispatch:
@@ -91,8 +89,8 @@ jobs:
 
       - name: Check bundled SDK AAR
         run: |
-          if [ ! -f ../../libs/flyingbee/FPPDFFramework-10.3.6.aar ]; then
-            echo "::error::FPPDFFramework-10.3.6.aar is missing from the repo-root libs/flyingbee/."
+          if [ ! -f ../../Shared/libs/flyingbee/FPPDFFramework-10.3.6.aar ]; then
+            echo "::error::FPPDFFramework-10.3.6.aar is missing from the repo-root Shared/libs/flyingbee/."
             echo "::error::Commit it, or restore it from a secret before this step"
             echo "::error::(e.g. a base64 repo secret decoded into that path)."
             exit 1

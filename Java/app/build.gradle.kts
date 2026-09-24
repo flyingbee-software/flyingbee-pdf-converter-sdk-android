@@ -4,7 +4,7 @@
 // Demonstrates the Flyingbee FPPDFFramework Android SDK end-to-end through its
 // Java API layer:
 //   * the SDK is consumed as a direct AAR dependency from the repo-root
-//     libs/flyingbee/FPPDFFramework-10.3.6.aar (shared by all three demos);
+//     Shared/libs/flyingbee/FPPDFFramework-10.3.6.aar (shared by all three demos);
 //   * the AAR carries the public Java classes
 //     (com.flyingbee.FPPDFFramework.Java.*) plus the self-contained native
 //     libraries (libFPPDFFramework.so and the libFPPDFFrameworkJava.so JNI
@@ -48,9 +48,9 @@ android {
     sourceSets {
         getByName("main") {
             // Resources.bundle is shared by all three demos from the repo-root
-            // shared-assets/ folder (see shared-assets/README.md); AGP merges
+            // Shared/assets/ folder (see Shared/assets/README.md); AGP merges
             // it into the APK's assets alongside the local samples/ folder.
-            assets.directories.add("../../shared-assets")
+            assets.directories.add("../../Shared/assets")
         }
     }
 
@@ -71,10 +71,10 @@ android {
 
 dependencies {
     // The Flyingbee PDF Conversion SDK, bundled as a direct AAR file shared by
-    // all three demos from the repo-root libs/flyingbee/ folder. The
+    // all three demos from the repo-root Shared/libs/flyingbee/ folder. The
     // Java API layer ships inside the same AAR (classes.jar + the JNI bridge
     // libraries); nothing else is needed on the consumer side.
-    implementation(files("../../libs/flyingbee/FPPDFFramework-10.3.6.aar"))
+    implementation(files("../../Shared/libs/flyingbee/FPPDFFramework-10.3.6.aar"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

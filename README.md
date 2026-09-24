@@ -73,7 +73,7 @@ Experience the full power of our PDF conversion SDK before integrating it into y
 | **Sample PDFs** | 7 bundled samples | 7 bundled samples | 1 bundled sample |
 | **Best for** | Evaluating the SDK, and 99% of production Kotlin apps | 99% of production Java apps (no coroutines needed) | Apps that already run native code and want the raw C++ entry points |
 
-All three projects are independent Gradle builds — each has its own `settings.gradle.kts` and Gradle wrapper, and all three consume the same AAR from the repo-root `libs/flyingbee/` drop-in folder. The Kotlin and Java demos share the same screens, formats and option trees; pick whichever language your app uses.
+All three projects are independent Gradle builds — each has its own `settings.gradle.kts` and Gradle wrapper, and all three consume the same AAR from the repo-root `Shared/libs/flyingbee/` drop-in folder. The Kotlin and Java demos share the same screens, formats and option trees; pick whichever language your app uses.
 
 ## Requirements
 
@@ -120,17 +120,17 @@ Notes:
 Nothing needs to be dropped in before the first build — the two SDK binaries are **already in the repository**, one shared copy each:
 
 ```
-libs/flyingbee/FPPDFFramework-10.3.6.aar   (single committed AAR — do not duplicate)
-shared-assets/Resources.bundle/            (single committed runtime resources)
+Shared/libs/flyingbee/FPPDFFramework-10.3.6.aar   (single committed AAR — do not duplicate)
+Shared/assets/Resources.bundle/                   (single committed runtime resources)
 ```
 
 All three demos consume the same AAR through a relative file dependency in their `app/build.gradle.kts`:
 
 ```kotlin
-implementation(files("../../libs/flyingbee/FPPDFFramework-10.3.6.aar"))
+implementation(files("../../Shared/libs/flyingbee/FPPDFFramework-10.3.6.aar"))
 ```
 
-and each demo's `assets.srcDirs` pulls the shared `Resources.bundle` into its APK — no per-demo copies exist. See [`libs/flyingbee/README.md`](libs/flyingbee/README.md) and [`shared-assets/README.md`](shared-assets/README.md) for details.
+and each demo's `assets.srcDirs` pulls the shared `Resources.bundle` into its APK — no per-demo copies exist. See [`Shared/libs/flyingbee/README.md`](Shared/libs/flyingbee/README.md) and [`Shared/assets/README.md`](Shared/assets/README.md) for details.
 
 ### Kotlin Demo (Kotlin)
 
@@ -182,7 +182,7 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 Why the native link is manual instead of Prefab: `libFPPDFFramework.so` is a *shared* library with a privately, statically linked libc++ (self-contained delivery, no `libc++_shared.so` to ship). AGP's Prefab integration categorically rejects that combination for any consumer, so the demo unpacks the AAR at build time and links the imported `.so` + headers directly. The public API only crosses the boundary in C types and PODs, so two independent libc++ copies can never interact.
 
-All three demos share the single `Resources.bundle` in the repo-root `shared-assets/` folder (wired in through each demo's `assets.srcDirs`) and unpack it on launch (Kotlin / Java demos via `FPPDFFramework.initialize()`, CPP demo via its own `SdkResources.kt`). The C++ demo additionally shows the correct JNI thread attach/detach pattern (`FPPDFFramework_jni.cpp`) and how to link the `.so` + headers manually instead of using Prefab.
+All three demos share the single `Resources.bundle` in the repo-root `Shared/assets/` folder (wired in through each demo's `assets.srcDirs`) and unpack it on launch (Kotlin / Java demos via `FPPDFFramework.initialize()`, CPP demo via its own `SdkResources.kt`). The C++ demo additionally shows the correct JNI thread attach/detach pattern (`FPPDFFramework_jni.cpp`) and how to link the `.so` + headers manually instead of using Prefab.
 
 > The C++ demo packages only `libFPPDFFramework.so` — it excludes the SDK's Kotlin bridge `libFPPDFFrameworkKotlin.so`, since it talks to the C++ API directly.
 
@@ -195,11 +195,12 @@ flyingbee-pdf-converter-sdk-android/
 ├── FPPDFFramework Android SDK Integration Guide.md
 │                                          full options reference + workflows
 ├── LICENSE                                Apache 2.0 (demo source only)
-├── libs/flyingbee/                        single shared copy of the SDK AAR
-│   └── FPPDFFramework-10.3.6.aar          (consumed by all three demos via
-│                                          implementation(files("../../libs/...")))
-├── shared-assets/                         single copy of the SDK runtime
-│   └── Resources.bundle/                  resources (CMaps, OOXML templates,
+├── Shared/
+│   ├── libs/flyingbee/                    single shared copy of the SDK AAR
+│   │   └── FPPDFFramework-10.3.6.aar      (consumed by all three demos via
+│   │                                       implementation(files("../../Shared/libs/...")))
+│   └── assets/                            single copy of the SDK runtime
+│       └── Resources.bundle/              resources (CMaps, OOXML templates,
 │                                          tessdata, fonts.conf) — pulled into
 │                                          all three APKs via assets.srcDirs
 ├── Kotlin/                                Kotlin API demo — no native code
@@ -275,7 +276,7 @@ The Kotlin demo consumes the SDK exactly as a customer app should. Four pieces a
 
 ### 1. Depend on the AAR
 
-Copy `libs/flyingbee/FPPDFFramework-10.3.6.aar` (the repo-root shared copy) into your own app (e.g. `app/libs/`), then declare it as a file dependency:
+Copy `Shared/libs/flyingbee/FPPDFFramework-10.3.6.aar` (the repo-root shared copy) into your own app (e.g. `app/libs/`), then declare it as a file dependency:
 
 ```kotlin
 dependencies {
@@ -288,7 +289,7 @@ No `settings.gradle.kts` repository changes are needed — this is a plain file 
 
 ### 2. Ship Resources.bundle
 
-Copy the **entire `Resources.bundle/` folder** from the SDK drop (or from this repository's [`shared-assets/Resources.bundle/`](shared-assets/)) into your app at `app/src/main/assets/Resources.bundle/`. This is required because the AAR no longer carries the runtime resources.
+Copy the **entire `Resources.bundle/` folder** from the SDK drop (or from this repository's [`Shared/assets/Resources.bundle/`](Shared/assets/)) into your app at `app/src/main/assets/Resources.bundle/`. This is required because the AAR no longer carries the runtime resources.
 
 ### 3. Initialize the SDK once
 
