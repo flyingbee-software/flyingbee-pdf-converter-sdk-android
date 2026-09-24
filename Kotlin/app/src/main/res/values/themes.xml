@@ -1,0 +1,11 @@
+<resources>
+    <!-- AppCompatActivity (required for per-app locales via
+         AppCompatDelegate.setApplicationLocales) demands a Theme.AppCompat
+         descendant; the Compose layer paints everything itself, so the
+         NoActionBar variant keeps the previous chrome-free look.
+         windowBackground matches Compose's LightColors.background to
+         eliminate the black flash while Compose is inflating. -->
+    <style name="Theme.FPPDFFrameworkDemo" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/window_background</item>
+    </style>
+</resources>

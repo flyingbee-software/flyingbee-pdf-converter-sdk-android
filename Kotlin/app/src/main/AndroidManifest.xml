@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application
+        android:name=".DemoApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.FPPDFFrameworkDemo">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.FPPDFFrameworkDemo">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!-- "Open in…" / share-to: accept PDF documents handed over by
+                 other apps (mirrors CFBundleDocumentTypes in the iOS demo). -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/pdf" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="content" android:mimeType="application/pdf" />
+                <data android:scheme="file" android:mimeType="application/pdf" />
+            </intent-filter>
+        </activity>
+
+        <!-- Sub-screens (multi-Activity navigation, aligned with the Java
+             demo's per-screen Activities). -->
+        <activity android:name=".SettingsActivity" android:exported="false" />
+        <activity android:name=".WordSettingsActivity" android:exported="false" />
+        <activity android:name=".ExcelSettingsActivity" android:exported="false" />
+        <activity android:name=".HtmlSettingsActivity" android:exported="false" />
+        <activity android:name=".ImageSettingsActivity" android:exported="false" />
+        <activity android:name=".ElementSettingsActivity" android:exported="false" />
+        <activity android:name=".SamplePickerActivity" android:exported="false" />
+        <activity android:name=".OcrLanguageActivity" android:exported="false" />
+
+        <!-- FileProvider so conversion results can be shared / opened by
+             other apps (Android equivalents of the iOS share sheet). -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+    </application>
+
+</manifest>

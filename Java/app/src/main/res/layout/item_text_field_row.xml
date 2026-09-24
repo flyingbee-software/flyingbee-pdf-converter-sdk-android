@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TextFieldRow: fixed-width label + outlined single-line field (56dp). -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp">
+
+    <TextView
+        android:id="@+id/row_label"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+        android:textColor="@color/on_surface" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/row_input_layout"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:hint="@null">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/row_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
+    </com.google.android.material.textfield.TextInputLayout>
+</LinearLayout>

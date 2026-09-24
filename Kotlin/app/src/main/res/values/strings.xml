@@ -1,0 +1,255 @@
+<resources>
+    <string name="app_name">FPPDFFrameworkDemo</string>
+
+    <!-- Top app bar -->
+    <string name="nav_title_kotlin_pill">Kotlin</string>
+
+    <!-- Home sections -->
+    <string name="section_input">INPUT</string>
+    <string name="section_output">OUTPUT</string>
+    <string name="section_action">ACTION</string>
+    <string name="section_result">RESULT</string>
+    <string name="section_license">SDK LICENSE</string>
+    <string name="section_about">ABOUT</string>
+
+    <!-- Input -->
+    <string name="no_file_selected">No file selected</string>
+    <string name="no_file_hint">Choose a bundled sample below, or import one from Files.</string>
+    <string name="tap_to_preview">Tap to preview</string>
+    <string name="bundled_samples">Bundled sample PDFs</string>
+    <string name="import_pdf">Import PDF from Files…</string>
+
+    <!-- Output -->
+    <string name="output_format">Output format</string>
+    <string name="page_range">Page range</string>
+    <string name="pages">Pages</string>
+    <string name="pages_placeholder">e.g. 1, 5, 3-12</string>
+    <string name="enable_ocr">Enable OCR recognition</string>
+    <string name="languages">Languages</string>
+    <string name="not_selected">Not selected</string>
+
+    <!-- Result -->
+    <string name="share_save">Share / Save to Files…</string>
+
+    <!-- License -->
+    <string name="organization">Organization</string>
+    <string name="expired_date">Expired date</string>
+    <string name="expired">Expired</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+
+    <!-- About -->
+    <string name="contact_us">Get SDK license / Contact us</string>
+    <string name="product_url">Flyingbee PDF SDK (product)</string>
+    <string name="github">GitHub repository</string>
+    <string name="about_desc">Flyingbee PDF SDK converts PDF to Word, Excel, PowerPoint, HTML, images, text and more — with OCR support on desktop and mobile platforms.</string>
+    <string name="copyright">Copyright © 2026 Flyingbee Software Co., LTD. All rights reserved.</string>
+    <string name="demo_title">FPPDFFramework Demo</string>
+    <string name="version_label">Version %1$s</string>
+    <string name="sdk_version_label">SDK %1$s</string>
+
+    <!-- Action buttons -->
+    <string name="start_conversion">Start Conversion</string>
+    <string name="stop">Stop</string>
+
+    <!-- Status messages -->
+    <string name="status_ready">Ready.</string>
+    <string name="status_ready_pick">Ready. Pick a bundled sample or import a PDF.</string>
+    <string name="status_sdk_load_failed">❌ SDK load failed: %1$s</string>
+    <string name="status_sample_unavailable">❌ Sample library unavailable: %1$s</string>
+    <string name="status_selected">Selected: %1$s</string>
+    <string name="status_selected_sample">Sample selected: %1$s</string>
+    <string name="status_import_failed">❌ Failed to import PDF: %1$s</string>
+    <string name="status_prepare">Preparing…</string>
+    <string name="status_converting">Converting…</string>
+    <string name="status_converting_to">Converting to %1$s…</string>
+    <string name="status_page_progress">Converting, page %1$d of %2$d…</string>
+    <string name="status_saving">Saving…</string>
+    <string name="status_cancelled">Conversion cancelled.</string>
+    <string name="status_sdk_rejected">SDK rejected the start request.</string>
+    <string name="status_sdk_rejected_with_reason">SDK rejected the start request: %1$s</string>
+    <string name="status_exception">⚠️ SDK reported an exception during conversion.</string>
+    <string name="status_failed">❌ Conversion failed: %1$s</string>
+    <string name="status_success_file">✅ %1$s conversion succeeded (%2$ss, %3$s, %4$s).</string>
+    <string name="status_success_folder">✅ %1$s conversion succeeded (%2$ss, %3$s, %4$d file(s)) → %5$s/</string>
+    <string name="status_no_output">⚠️ Conversion reported success but no file was produced — check the license expiry above.</string>
+    <string name="status_pick_first">Pick a sample PDF or import one first.</string>
+    <string name="status_cannot_open">⚠️ Cannot open %1$s</string>
+    <string name="status_no_preview_app">⚠️ No app can preview %1$s.</string>
+    <string name="status_share_unavailable">⚠️ Sharing unavailable: %1$s</string>
+    <string name="status_wrong_password">❌ Incorrect password. Please try again.</string>
+
+    <!-- Password dialog -->
+    <string name="encrypted_pdf_title">Encrypted PDF</string>
+    <string name="encrypted_pdf_body">"%1$s" is encrypted. Enter the password to continue.</string>
+    <string name="pdf_password_label">PDF password</string>
+    <string name="cancel">Cancel</string>
+    <string name="unlock">Unlock</string>
+
+    <!-- Common dialogs -->
+    <string name="back">Back</string>
+
+    <!-- Sample picker -->
+    <string name="sample_pdfs">Sample PDFs</string>
+    <string name="bundled_samples_label">Bundled samples</string>
+    <string name="no_bundled_samples">No bundled samples found.</string>
+    <string name="page_count_with_pages">%1$d page%2$s · %3$s</string>
+    <string name="page_single_suffix"></string>
+    <string name="page_plural_suffix">s</string>
+
+    <!-- OCR languages -->
+    <string name="ocr_languages">OCR Languages</string>
+    <string name="ocr_languages_section">Languages</string>
+    <string name="ocr_combined">Combined string: %1$s</string>
+    <string name="ocr_tip">Tip: keep “English” at the end of the language string for best recognition.</string>
+
+    <!-- Settings root -->
+    <string name="settings_output">Output Settings</string>
+    <string name="settings_conversion">Conversion</string>
+    <string name="settings_conversion_footer">Thread count is passed to the SDK for every conversion; output preview opens the system viewer when finished.</string>
+    <string name="settings_general">General</string>
+    <string name="settings_general_footer">Default DPI and compression quality used for embedded images.</string>
+    <string name="settings_multi_threads">Multi-threads</string>
+    <string name="settings_thread_count">Thread count</string>
+    <string name="settings_thread_count_placeholder">Thread count, e.g. 3</string>
+    <string name="settings_preview_after">Preview output after conversion</string>
+    <string name="settings_image_dpi">Image DPI</string>
+    <string name="settings_image_quality">Image quality</string>
+    <string name="settings_ocr">OCR</string>
+    <string name="settings_ocr_footer">Tip: keep "English" at the end of the language string for best recognition. Note: OCR data files are not bundled in this Android demo (see README).</string>
+    <string name="settings_ocr_resolution">Resolution (DPI)</string>
+    <string name="settings_ocr_scan">Scan pre-processing</string>
+    <string name="settings_output_formats">Output formats</string>
+    <string name="settings_output_formats_footer">Per-document-type options. The common parameters live on the main screen.</string>
+
+    <!-- Word settings -->
+    <string name="settings_word">Word Settings</string>
+    <string name="settings_word_layout">Layout</string>
+    <string name="settings_word_trim">Trim blank spaces</string>
+    <string name="settings_word_merge_paragraphs">Merge paragraphs</string>
+    <string name="settings_word_graphics">Graphics</string>
+    <string name="settings_word_shapes_to_image">Shapes to image</string>
+    <string name="settings_word_merge_intersect">Merge intersect images</string>
+    <string name="settings_word_outline">Outline</string>
+
+    <!-- Excel settings -->
+    <string name="settings_excel">Excel Settings</string>
+    <string name="settings_excel_sheet">Sheet</string>
+    <string name="settings_excel_all_in_one">All in one sheet</string>
+    <string name="settings_excel_sheet_style">Sheet style</string>
+    <string name="settings_excel_style_append_rows">Append to rows</string>
+    <string name="settings_excel_style_append_cols">Append to columns</string>
+    <string name="settings_excel_recognize_numbers">Recognize numbers</string>
+    <string name="settings_excel_data">Data</string>
+    <string name="settings_excel_format">Output format</string>
+    <string name="settings_excel_format_keep">Keep original formatting</string>
+    <string name="settings_excel_format_retain">Retain data structure</string>
+    <string name="settings_excel_format_special">Special version</string>
+    <string name="settings_excel_thousand">Thousand separator</string>
+    <string name="settings_excel_overlap">Overlap text</string>
+    <string name="settings_excel_csv">CSV</string>
+    <string name="settings_excel_csv_zip">CSV package as ZIP</string>
+
+    <!-- HTML settings -->
+    <string name="settings_html">HTML Settings</string>
+    <string name="settings_html_layout">Layout</string>
+    <string name="settings_html_layout_footer">"Paragraph" only applies to the text flow view.</string>
+    <string name="settings_html_layout_mode">Layout mode</string>
+    <string name="settings_html_page_view">Page view</string>
+    <string name="settings_html_text_flow">Text flow view</string>
+    <string name="settings_html_paragraph">Paragraph</string>
+    <string name="settings_html_blank_line">Blank line</string>
+    <string name="settings_html_first_indent">First line indent</string>
+    <string name="settings_html_output">Output</string>
+    <string name="settings_html_merge">Merge resources</string>
+    <string name="settings_html_nav">Navigation bar</string>
+    <string name="settings_html_nav_none">None</string>
+    <string name="settings_html_nav_pdf">PDF viewer</string>
+    <string name="settings_html_zip">Package as ZIP</string>
+
+    <!-- Image settings -->
+    <string name="settings_image">Image Settings</string>
+    <string name="settings_image_format_section">Format</string>
+    <string name="settings_image_format">Image format</string>
+    <string name="settings_image_rendering">Rendering</string>
+    <string name="settings_image_dpi_label">DPI</string>
+    <string name="settings_image_quality_label">Quality</string>
+    <string name="settings_image_antialias">Anti-alias (font smoothing)</string>
+    <string name="settings_image_output">Output</string>
+
+    <!-- Element settings -->
+    <string name="settings_element">Element Settings</string>
+    <string name="settings_element_section">Element</string>
+    <string name="element_zip_package">Zip package</string>
+    <string name="element_loose_files">Loose files</string>
+
+    <!-- Pickers -->
+    <string name="picker_none">None</string>
+    <string name="picker_pdf_outline">PDF Outline</string>
+    <string name="picker_detect_outline">Detect Outline</string>
+    <string name="picker_auto">Auto</string>
+    <string name="picker_comma">Comma</string>
+    <string name="picker_dot">Dot</string>
+    <string name="picker_blank_comma">Blank + comma</string>
+    <string name="picker_apostrophe_comma">Apostrophe + comma</string>
+    <string name="picker_merge">Merge</string>
+    <string name="picker_split">Split</string>
+    <string name="picker_keep_formatting">Keep formatting</string>
+    <string name="picker_retain_structure">Retain structure</string>
+    <string name="picker_special_version">Special version</string>
+    <string name="picker_css_js">CSS + JS</string>
+    <string name="picker_css_js_small">CSS + JS + small images</string>
+    <string name="picker_css_js_all">CSS + JS + all images</string>
+
+    <!-- Enums: OutputFormat -->
+    <string name="format_docx">Word (*.docx)</string>
+    <string name="format_pptx">PowerPoint (*.pptx)</string>
+    <string name="format_xlsx">Excel (*.xlsx)</string>
+    <string name="format_csv">CSV (*.csv)</string>
+    <string name="format_txt">Text (*.txt)</string>
+    <string name="format_html">HTML (*.html)</string>
+    <string name="format_image">Image</string>
+    <string name="format_element">Element (XML)</string>
+
+    <!-- Enums: PageRangeMode -->
+    <string name="range_all">All Pages</string>
+    <string name="range_first_10">First 10</string>
+    <string name="range_first_3">First 3</string>
+    <string name="range_first_1">First 1</string>
+    <string name="range_customize">Customize</string>
+
+    <!-- Enums: ThreadMode -->
+    <string name="thread_auto">Auto</string>
+    <string name="thread_1">1 Thread</string>
+    <string name="thread_2">2 Threads</string>
+    <string name="thread_5">5 Threads</string>
+    <string name="thread_10">10 Threads</string>
+    <string name="thread_customize">Customize</string>
+
+    <!-- Quality labels -->
+    <string name="quality_low">Low (0.3)</string>
+    <string name="quality_medium">Medium (0.6)</string>
+    <string name="quality_good">Good (0.83)</string>
+    <string name="quality_high">High (0.92)</string>
+    <string name="quality_best">Best (1.0)</string>
+
+    <!-- File size units -->
+    <string name="size_bytes">%1$d B</string>
+    <string name="size_fmt">%.1f %s</string>
+
+    <!-- Language picker -->
+    <string name="settings_language">Language</string>
+    <string name="settings_language_section">Language</string>
+    <string name="language_system">System</string>
+    <string name="language_en">English</string>
+    <string name="language_zh_cn">简体中文</string>
+    <string name="language_zh_tw">繁體中文</string>
+    <string name="language_ja">日本語</string>
+    <string name="language_ko">한국어</string>
+    <string name="language_de">Deutsch</string>
+    <string name="language_fr">Français</string>
+    <string name="language_es">Español</string>
+    <string name="language_ru">Русский</string>
+    <string name="language_pt">Português</string>
+    <string name="settings_about_flyingbee">About Flyingbee</string>
+</resources>

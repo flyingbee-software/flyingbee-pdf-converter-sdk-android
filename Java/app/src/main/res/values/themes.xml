@@ -1,0 +1,38 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Material Components (NoActionBar) theme. The demo paints its own
+         Material-style top bars inside each screen, so the action bar is
+         removed. windowBackground matches the Kotlin demo's
+         MaterialTheme.colorScheme.background (#F2F2F7) to avoid a flash. -->
+    <style name="Theme.FPPDFFrameworkDemo" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:windowBackground">@color/window_background</item>
+        <item name="colorPrimary">@color/brand_primary</item>
+        <item name="colorSecondary">@color/brand_secondary</item>
+        <item name="colorSurface">@color/surface</item>
+        <!-- Edge-to-edge: the system bars are transparent and each screen pads
+             its top bar / scroll content with the window insets (status bar,
+             display cutout / notch and navigation bar). -->
+        <item name="android:statusBarColor" tools:targetApi="l">@android:color/transparent</item>
+        <item name="android:navigationBarColor" tools:targetApi="l">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+    </style>
+
+    <!-- A rounded 12dp card style mirroring the Compose SectionCard look. -->
+    <style name="Widget.Demo.Card" parent="Widget.Material3.CardView.Filled">
+        <item name="cardCornerRadius">12dp</item>
+        <item name="cardBackgroundColor">@color/surface</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+
+    <!-- Section header label (uppercase, small, onSurfaceVariant). -->
+    <style name="TextAppearance.Demo.SectionHeader" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:textColor">@color/on_surface_variant</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.04</item>
+    </style>
+
+    <!-- Section footer text. -->
+    <style name="TextAppearance.Demo.Footer" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textColor">@color/on_surface_variant</item>
+    </style>
+</resources>

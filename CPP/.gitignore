@@ -1,0 +1,14 @@
+# Gradle / Android Studio
+.gradle/
+build/
+app/build/
+app/.cxx/
+.kotlin/
+local.properties
+
+# IDE
+.idea/
+*.iml
+
+# macOS
+.DS_Store

@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------
-# CI for FPPDFFramework_Demo_Android (pure Kotlin API integration).
+# CI for the Kotlin demo (Kotlin/ — pure Kotlin API integration).
 #
 # Toolchain (see gradle/libs.versions.toml + gradle-wrapper.properties):
 #   Gradle 9.7.1 | AGP 9.4.x | Kotlin 2.2.20 | compileSdk / targetSdk 37
@@ -22,13 +22,15 @@ on:
   push:
     branches: ["main", "master"]
     paths:
-      - "FPPDFFramework_Demo_Android/**"
+      - "Kotlin/**"
+      - "shared-assets/**"
       - ".gitattributes"
       - ".github/workflows/android-demo-kotlin.yml"
   pull_request:
     branches: ["main", "master"]
     paths:
-      - "FPPDFFramework_Demo_Android/**"
+      - "Kotlin/**"
+      - "shared-assets/**"
       - ".gitattributes"
       - ".github/workflows/android-demo-kotlin.yml"
   workflow_dispatch:
@@ -42,7 +44,7 @@ concurrency:
 
 defaults:
   run:
-    working-directory: FPPDFFramework_Demo_Android
+    working-directory: Kotlin
 
 jobs:
   build:
@@ -101,12 +103,12 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: fppdf-demo-kotlin-debug
-          path: FPPDFFramework_Demo_Android/app/build/outputs/apk/debug/*.apk
+          path: Kotlin/app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
 
       - name: Upload release APK
         uses: actions/upload-artifact@v4
         with:
           name: fppdf-demo-kotlin-release
-          path: FPPDFFramework_Demo_Android/app/build/outputs/apk/release/*.apk
+          path: Kotlin/app/build/outputs/apk/release/*.apk
           if-no-files-found: error

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ic_launcher_background">#D93025</color>
+
+    <!-- Palette mirroring the Kotlin demo's Material3 LightColors
+         (Theme.kt): a plain blue accent so it looks the same on every device. -->
+    <color name="brand_primary">#0A66C2</color>
+    <color name="brand_secondary">#1976D2</color>
+    <color name="brand_primary_container">#D6E4F5</color>
+    <color name="brand_on_primary_container">#0A3D73</color>
+    <color name="window_background">#F2F2F7</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="on_surface">#1C1B1F</color>
+    <color name="on_surface_variant">#49454F</color>
+    <color name="surface_variant">#E7E0EC</color>
+    <color name="outline">#79747E</color>
+
+    <!-- Semantic colours used by the demo. -->
+    <color name="status_success">#1B8E3C</color>
+    <color name="status_warning">#E8710A</color>
+    <color name="danger">#D93025</color>
+    <color name="btn_start">#2E9E4F</color>
+    <color name="btn_stop">#CC3333</color>
+    <color name="white">#FFFFFF</color>
+</resources>

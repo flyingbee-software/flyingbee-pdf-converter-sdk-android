@@ -2,12 +2,13 @@
 
 Welcome to the official integration guide for the **FPPDFFramework SDK for Android**. This guide shows how to convert PDFs to Word, Excel, PowerPoint, HTML, Images and more on Android using the SDK's **Kotlin API** — no NDK, no CMake, and no JNI code of your own.
 
-The SDK ships as a single AAR (`FPPDFFramework-10.3.6.aar`) containing the Kotlin API layer (`com.flyingbee.FPPDFFramework.*`), the self-contained native core (`libFPPDFFramework.so`, 4 ABIs), and three public C++ headers for advanced native use. The runtime resources (`Resources.bundle` — CMaps, OOXML templates, tessdata, fonts.conf) are shipped alongside the AAR and must be placed in your app's `src/main/assets/Resources.bundle/`. This guide covers both integration paths:
+The SDK ships as a single AAR (`FPPDFFramework-10.3.6.aar`) containing the Kotlin API layer (`com.flyingbee.FPPDFFramework.*`), a Java-friendly layer on top of it (`com.flyingbee.FPPDFFramework.Java.*`), the self-contained native core (`libFPPDFFramework.so`, 4 ABIs), and three public C++ headers for advanced native use. The runtime resources (`Resources.bundle` — CMaps, OOXML templates, tessdata, fonts.conf) are shipped alongside the AAR and must be placed in your app's `src/main/assets/Resources.bundle/`. This guide covers all three integration paths:
 
 | Path | API | Demo project |
 | :--- | :--- | :--- |
-| **Kotlin** (recommended) | `com.flyingbee.FPPDFFramework.*` — coroutines, `Flow` progress, options DSL | `FPPDFFramework_Demo_Android` |
-| **C++** | `FPPDFDocument` / `FPPDF2AllConverter` / `FPPDFOptions` | `FPPDFFramework_Demo_Android_CPP` |
+| **Kotlin** (recommended) | `com.flyingbee.FPPDFFramework.*` — coroutines, `Flow` progress, options DSL | `Kotlin` |
+| **Java** | `com.flyingbee.FPPDFFramework.Java.*` — `convertAsync` + `ConvertCallback` | `Java` |
+| **C++** | `FPPDFDocument` / `FPPDF2AllConverter` / `FPPDFOptions` | `CPP` |
 
 ## 🕹️ Try the Free Online Web Demo
 
@@ -35,7 +36,7 @@ Before writing any integration code, you can exercise the same conversion engine
 
 ## Before You Start
 
-| Item | Kotlin path | C++ path |
+| Item | Kotlin / Java path | C++ path |
 | :--- | :--- | :--- |
 | Android Studio | 2026.1.4+ (**Quail 4** or newer) — AGP 9.4 is only supported from Quail 4 onward | same |
 | Minimum Android OS | 6.0 (API 23) — `minSdk = 23` | same |
@@ -44,7 +45,7 @@ Before writing any integration code, you can exercise the same conversion engine
 | Android NDK | **Not required** | Required — 28.2.13676358 |
 | CMake | — | 3.22.1 |
 | SDK Build Tools | 36.0.0 or later | 36.0.0 or later |
-| Extra dependency | `kotlinx-coroutines-android` | — |
+| Extra dependency | `kotlinx-coroutines-android` (Kotlin path only; the Java API layer wraps coroutines internally) | — |
 | JDK | 17 minimum; the project pins 25 via `gradle/gradle-daemon-jvm.properties` (auto-provisioned on first sync — needs network) | same |
 | Runtime permissions | none (internal-storage I/O) | none |
 
@@ -65,7 +66,7 @@ dependencies {
 
 No `settings.gradle.kts` repository changes are needed. AGP merges the Kotlin classes and the per-ABI native libraries into your APK automatically.
 
-> The AAR is a commercial binary. Drop it into `app/libs/flyingbee/` before the first build; see `app/libs/flyingbee/README.md` in either demo project. You must also copy the `Resources.bundle/` folder into your app at `app/src/main/assets/Resources.bundle/` — it is no longer baked into the AAR.
+> The AAR is a commercial binary. Drop it into `app/libs/flyingbee/` before the first build; see `app/libs/flyingbee/README.md` in either demo project. You must also ship the `Resources.bundle/` folder in your app at `app/src/main/assets/Resources.bundle/` — it is no longer baked into the AAR. (In this repository the demos share one committed copy at the root [`shared-assets/Resources.bundle/`](shared-assets/), merged into every APK via `assets.srcDirs`; in your own app just copy the folder into your assets.)
 
 ### 2. Initialize the SDK (required)
 
@@ -272,7 +273,7 @@ try {
 
 ## Using the C++ API Directly
 
-If you need the raw C++ API (`FPPDFDocument`, `FPPDF2AllConverter`, `FPPDFOptions`) from native code, use the sibling **`FPPDFFramework_Demo_Android_CPP`** project as your reference.
+If you need the raw C++ API (`FPPDFDocument`, `FPPDF2AllConverter`, `FPPDFOptions`) from native code, use the sibling **`CPP`** project as your reference.
 
 ### Linking
 
@@ -344,7 +345,7 @@ converter.cancelConversion();
 
 **Q: Which demo project should I start from?**
 
-A: `FPPDFFramework_Demo_Android` — it drives the Kotlin API, needs no NDK/CMake/JNI in your app, and exercises every output format plus the full options tree. Use `FPPDFFramework_Demo_Android_CPP` only if you intend to call the C++ API from your own native code.
+A: `Kotlin` — it drives the Kotlin API, needs no NDK/CMake/JNI in your app, and exercises every output format plus the full options tree. If your app is pure Java, start from `Java` instead (same screens and formats, XML layouts, `convertAsync` callbacks, no coroutines). Use `CPP` only if you intend to call the C++ API from your own native code.
 
 **Q: What is the recommended thread count?**
 
@@ -364,7 +365,7 @@ A: Usually a missing or mismatched native library: `initialize()` checks that `l
 
 **Q: Do I need to ship or unpack `Resources.bundle` myself?**
 
-A: **Yes.** `Resources.bundle` is no longer inside the AAR — you must copy it from the SDK drop (or from the demo's `app/src/main/assets/Resources.bundle/`) into your own app at `app/src/main/assets/Resources.bundle/`. AGP then merges it into the APK. `FPPDFFramework.initialize()` unpacks it to internal storage on first launch; if you drive the C++ API natively, your code must call `FPPDF2AllConverter::SetResourceRootFolder` after unpacking it yourself (see the CPP demo's `SdkResources.kt`).
+A: **Yes.** `Resources.bundle` is no longer inside the AAR — you must copy it from the SDK drop (or from this repository's root `shared-assets/Resources.bundle/`) into your own app at `app/src/main/assets/Resources.bundle/`. AGP then merges it into the APK. `FPPDFFramework.initialize()` unpacks it to internal storage on first launch; if you drive the C++ API natively, your code must call `FPPDF2AllConverter::SetResourceRootFolder` after unpacking it yourself (see the CPP demo's `SdkResources.kt`).
 
 **Q: Can I convert specific pages instead of the whole document?**
 
@@ -372,7 +373,7 @@ A: Yes. `PageRange` is 1-based — `PageRange.Pages(listOf(1, 3, 5))` converts p
 
 **Q: Can I use the SDK from plain Java?**
 
-A: Yes — `convertAsync(request, ConvertCallback)` and the `FPPDFDocument.open(...)` accessors are Java-friendly. The `conversionOptions { }` DSL and `suspend convert()` are Kotlin-only conveniences.
+A: Yes — `convertAsync(request, ConvertCallback)` and the `FPPDFDocument.open(...)` accessors are Java-friendly, and the AAR ships a dedicated Java API layer (`com.flyingbee.FPPDFFramework.Java.*`). The `Java` demo is a complete example. The `conversionOptions { }` DSL and `suspend convert()` are Kotlin-only conveniences.
 
 **Q: Which STL should my app use?**
 
@@ -380,7 +381,7 @@ A: With the Kotlin API your app has no native code, so the question doesn't appl
 
 **Q: Why can't I consume the SDK through Prefab?**
 
-A: Because `libFPPDFFramework.so` is a shared library with a privately, statically linked libc++, which AGP's Prefab rejects for any consumer. Unpack the AAR at build time and link the `.so` + headers directly in CMake — see `FPPDFFramework_Demo_Android_CPP/app/build.gradle.kts` (`unpackFppdfSdk`) and `src/main/cpp/CMakeLists.txt`.
+A: Because `libFPPDFFramework.so` is a shared library with a privately, statically linked libc++, which AGP's Prefab rejects for any consumer. Unpack the AAR at build time and link the `.so` + headers directly in CMake — see `CPP/app/build.gradle.kts` (`unpackFppdfSdk`) and `src/main/cpp/CMakeLists.txt`.
 
 **Q: Does minification (R8/ProGuard) break the SDK?**
 

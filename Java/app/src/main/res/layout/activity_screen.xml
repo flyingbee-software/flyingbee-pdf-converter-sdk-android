@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Shared scaffold for every sub-screen (settings pages, sample picker,
+     OCR languages): top bar with back arrow + scrollable content. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/screen_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:background="@color/surface"
+        app:backgroundTint="@color/surface"
+        app:elevation="0dp"
+        android:elevation="0dp"
+        android:outlineProvider="none"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:navigationContentDescription="@string/back"
+        app:titleTextAppearance="@style/TextAppearance.Material3.TitleLarge"
+        app:titleTextColor="@color/on_surface"
+        xmlns:app="http://schemas.android.com/apk/res-auto" />
+
+    <ScrollView
+        android:id="@+id/screen_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/screen_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="24dp" />
+    </ScrollView>
+</LinearLayout>

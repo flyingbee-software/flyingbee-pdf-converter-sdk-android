@@ -1,0 +1,146 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R 4 0 R 5 0 R 6 0 R] /Count 4 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 11 0 R /F2 12 0 R >> /ProcSet [/PDF /Text] >> /Contents 7 0 R >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 11 0 R /F2 12 0 R >> /ProcSet [/PDF /Text] >> /Contents 8 0 R >>
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 11 0 R /F2 12 0 R >> /ProcSet [/PDF /Text] >> /Contents 9 0 R >>
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 11 0 R /F2 12 0 R >> /ProcSet [/PDF /Text] >> /Contents 10 0 R >>
+endobj
+7 0 obj
+<< /Length 2659 >>
+stream
+0.090 0.360 0.650 rg 48.0 726.0 516.0 34.0 re f
+0.800 0.330 0.200 rg 48.0 80.0 140.0 2.0 re f
+0.930 0.550 0.200 rg 554.00 660.00 553.71 664.44 552.84 668.80 551.41 673.01 549.44 677.00 546.97 680.70 544.04 684.04 540.70 686.97 537.00 689.44 533.01 691.41 528.80 692.84 524.44 693.71 520.00 694.00 515.56 693.71 511.20 692.84 506.99 691.41 503.00 689.44 499.30 686.97 495.96 684.04 493.03 680.70 490.56 677.00 488.59 673.01 487.16 668.80 486.29 664.44 486.00 660.00 486.29 655.56 487.16 651.20 488.59 646.99 490.56 643.00 493.03 639.30 495.96 635.96 499.30 633.03 503.00 630.56 506.99 628.59 511.20 627.16 515.56 626.29 520.00 626.00 524.44 626.29 528.80 627.16 533.01 628.59 537.00 630.56 540.70 633.03 544.04 635.96 546.97 639.30 549.44 643.00 551.41 646.99 552.84 651.20 553.71 655.56 554.00 660.00 h f
+0.600 0.600 0.600 RG 1 w 60.0 340.0 m 552.0 340.0 l S
+0.600 0.600 0.600 RG 1 w 60.0 320.0 m 552.0 320.0 l S
+0.600 0.600 0.600 RG 1 w 60.0 300.0 m 552.0 300.0 l S
+0.600 0.600 0.600 RG 1 w 60.0 280.0 m 552.0 280.0 l S
+0.600 0.600 0.600 RG 1 w 60.0 260.0 m 552.0 260.0 l S
+BT /F2 26 Tf 0.090 0.360 0.650 rg 60.0 700.0 Td (Flyingbee PDF Converter SDK) Tj ET
+BT /F1 15 Tf 0.250 0.250 0.300 rg 62.0 672.0 Td (iOS Sample Document \(FPPDFSample.pdf\)) Tj ET
+BT /F1 11 Tf 0.150 0.150 0.150 rg 60.0 620.0 Td (This multi-page sample file is bundled with the iOS demo apps to let) Tj ET
+BT /F1 11 Tf 0.150 0.150 0.150 rg 60.0 604.0 Td (you exercise PDF conversion without picking an external document.) Tj ET
+BT /F1 11 Tf 0.150 0.150 0.150 rg 60.0 588.0 Td (It contains selectable text \(vector, not scanned\) plus simple vector) Tj ET
+BT /F1 11 Tf 0.150 0.150 0.150 rg 60.0 572.0 Td (graphics so you can compare Word/HTML/Image output fidelity.) Tj ET
+BT /F2 12 Tf 0.090 0.360 0.650 rg 60.0 540.0 Td (What you can try with this file:) Tj ET
+BT /F1 11 Tf 0.100 0.100 0.100 rg 72.0 518.0 Td (  * Convert to DOCX / PPTX / XLSX / CSV / TXT / RTF / HTML) Tj ET
+BT /F1 11 Tf 0.100 0.100 0.100 rg 72.0 502.0 Td (  * Convert pages to JPEG / PNG / BMP / GIF / TIFF / TGA / JPEG2000) Tj ET
+BT /F1 11 Tf 0.100 0.100 0.100 rg 72.0 486.0 Td (  * Extract structured content as Element XML) Tj ET
+BT /F1 11 Tf 0.100 0.100 0.100 rg 72.0 470.0 Td (  * Apply page ranges \(all / first 10 / first 3 / first page / custom\)) Tj ET
+BT /F1 11 Tf 0.100 0.100 0.100 rg 72.0 454.0 Td (  * Enable OCR on text pages for language coverage checks) Tj ET
+BT /F1 11 Tf 0.150 0.150 0.150 rg 60.0 410.0 Td (Page layout intentionally keeps margins and styles simple, which makes) Tj ET
+BT /F1 11 Tf 0.150 0.150 0.150 rg 60.0 394.0 Td (the generated Office documents clean and easy to inspect.) Tj ET
+endstream
+endobj
+8 0 obj
+<< /Length 1789 >>
+stream
+0.780 0.780 0.780 RG 72.0 490.0 460.0 142.0 re S
+0.550 0.550 0.550 RG 1 w 72.0 600.0 m 532.0 600.0 l S
+0.550 0.550 0.550 RG 1 w 200.0 490.0 m 200.0 632.0 l S
+0.550 0.550 0.550 RG 1 w 330.0 490.0 m 330.0 632.0 l S
+0.550 0.550 0.550 RG 1 w 460.0 490.0 m 460.0 632.0 l S
+0.400 0.400 0.400 RG 1 w 100.0 240.0 m 520.0 240.0 l S
+0.150 0.550 0.850 rg 110.0 240.0 60.0 62.0 re f
+0.250 0.650 0.450 rg 210.0 240.0 60.0 88.0 re f
+0.930 0.550 0.200 rg 310.0 240.0 60.0 116.0 re f
+0.800 0.330 0.200 rg 410.0 240.0 60.0 148.0 re f
+BT /F2 20 Tf 0.090 0.360 0.650 rg 60.0 740.0 Td (Page 2 - Tables and Charts) Tj ET
+BT /F1 11 Tf 0.150 0.150 0.150 rg 60.0 704.0 Td (The grid below is drawn with vector rectangles; text sits on top. In) Tj ET
+BT /F1 11 Tf 0.150 0.150 0.150 rg 60.0 688.0 Td (Excel output this kind of content maps to cells and row/column layout.) Tj ET
+BT /F2 13 Tf 0.200 0.200 0.200 rg 72.0 650.0 Td (Quarterly build metrics \(fictional\)) Tj ET
+BT /F2 10 Tf 0.050 0.050 0.050 rg 84.0 616.0 Td (Quarter      Builds       Crashes     Crash-free) Tj ET
+BT /F1 10 Tf 0.100 0.100 0.100 rg 84.0 588.0 Td (Q1 2026      142          12          0.9%) Tj ET
+BT /F1 10 Tf 0.100 0.100 0.100 rg 84.0 566.0 Td (Q2 2026      168           9          0.7%) Tj ET
+BT /F1 10 Tf 0.100 0.100 0.100 rg 84.0 544.0 Td (Q3 2026      191           7          0.5%) Tj ET
+BT /F1 10 Tf 0.100 0.100 0.100 rg 84.0 522.0 Td (Q4 2026      205           5          0.4%) Tj ET
+BT /F2 13 Tf 0.200 0.200 0.200 rg 72.0 436.0 Td (Vector bar chart \(from the same page source\)) Tj ET
+BT /F1 10 Tf 0.250 0.250 0.250 rg 118.0 216.0 Td (Q1) Tj ET
+BT /F1 10 Tf 0.250 0.250 0.250 rg 218.0 216.0 Td (Q2) Tj ET
+BT /F1 10 Tf 0.250 0.250 0.250 rg 318.0 216.0 Td (Q3) Tj ET
+BT /F1 10 Tf 0.250 0.250 0.250 rg 418.0 216.0 Td (Q4) Tj ET
+endstream
+endobj
+9 0 obj
+<< /Length 3779 >>
+stream
+0.550 0.700 0.800 rg 48.0 336.0 516.0 2.0 re f
+0.350 0.600 0.800 rg 60.0 252.0 34.0 34.0 re f
+0.900 0.450 0.300 rg 167.00 269.00 166.85 271.22 166.42 273.40 165.71 275.51 164.72 277.50 163.49 279.35 162.02 281.02 160.35 282.49 158.50 283.72 156.51 284.71 154.40 285.42 152.22 285.85 150.00 286.00 147.78 285.85 145.60 285.42 143.49 284.71 141.50 283.72 139.65 282.49 137.98 281.02 136.51 279.35 135.28 277.50 134.29 275.51 133.58 273.40 133.15 271.22 133.00 269.00 133.15 266.78 133.58 264.60 134.29 262.49 135.28 260.50 136.51 258.65 137.98 256.98 139.65 255.51 141.50 254.28 143.49 253.29 145.60 252.58 147.78 252.15 150.00 252.00 152.22 252.15 154.40 252.58 156.51 253.29 158.50 254.28 160.35 255.51 162.02 256.98 163.49 258.65 164.72 260.50 165.71 262.49 166.42 264.60 166.85 266.78 167.00 269.00 h f
+0.900 0.450 0.300 rg 252.00 269.00 251.85 271.22 251.42 273.40 250.71 275.51 249.72 277.50 248.49 279.35 247.02 281.02 245.35 282.49 243.50 283.72 241.51 284.71 239.40 285.42 237.22 285.85 235.00 286.00 232.78 285.85 230.60 285.42 228.49 284.71 226.50 283.72 224.65 282.49 222.98 281.02 221.51 279.35 220.28 277.50 219.29 275.51 218.58 273.40 218.15 271.22 218.00 269.00 218.15 266.78 218.58 264.60 219.29 262.49 220.28 260.50 221.51 258.65 222.98 256.98 224.65 255.51 226.50 254.28 228.49 253.29 230.60 252.58 232.78 252.15 235.00 252.00 237.22 252.15 239.40 252.58 241.51 253.29 243.50 254.28 245.35 255.51 247.02 256.98 248.49 258.65 249.72 260.50 250.71 262.49 251.42 264.60 251.85 266.78 252.00 269.00 h f
+0.900 0.450 0.300 rg 337.00 269.00 336.85 271.22 336.42 273.40 335.71 275.51 334.72 277.50 333.49 279.35 332.02 281.02 330.35 282.49 328.50 283.72 326.51 284.71 324.40 285.42 322.22 285.85 320.00 286.00 317.78 285.85 315.60 285.42 313.49 284.71 311.50 283.72 309.65 282.49 307.98 281.02 306.51 279.35 305.28 277.50 304.29 275.51 303.58 273.40 303.15 271.22 303.00 269.00 303.15 266.78 303.58 264.60 304.29 262.49 305.28 260.50 306.51 258.65 307.98 256.98 309.65 255.51 311.50 254.28 313.49 253.29 315.60 252.58 317.78 252.15 320.00 252.00 322.22 252.15 324.40 252.58 326.51 253.29 328.50 254.28 330.35 255.51 332.02 256.98 333.49 258.65 334.72 260.50 335.71 262.49 336.42 264.60 336.85 266.78 337.00 269.00 h f
+BT /F2 20 Tf 0.090 0.360 0.650 rg 60.0 740.0 Td (Page 3 - Format Coverage Notes) Tj ET
+BT /F1 11 Tf 0.150 0.150 0.150 rg 60.0 700.0 Td (This page mixes heading text with larger display text. Use it to check) Tj ET
+BT /F1 11 Tf 0.150 0.150 0.150 rg 60.0 684.0 Td (that vertical and horizontal spacing survive conversion, and that text) Tj ET
+BT /F1 11 Tf 0.150 0.150 0.150 rg 60.0 668.0 Td (streams are re-flowed \(HTML text-flow mode\) or kept page-exact.) Tj ET
+BT /F2 15 Tf 0.200 0.450 0.550 rg 60.0 622.0 Td (Supported output formats) Tj ET
+BT /F1 12 Tf 0.100 0.100 0.100 rg 72.0 594.0 Td (  Word \(.docx\)   PowerPoint \(.pptx\)   Excel \(.xlsx\)) Tj ET
+BT /F1 12 Tf 0.100 0.100 0.100 rg 72.0 574.0 Td (  CSV \(.csv\)     Text \(.txt\)          RTF \(.rtf\)) Tj ET
+BT /F1 12 Tf 0.100 0.100 0.100 rg 72.0 554.0 Td (  HTML \(.html\)   Element XML          Images \(7 formats\)) Tj ET
+BT /F2 15 Tf 0.550 0.250 0.100 rg 60.0 508.0 Td (Sample text meant for OCR verification) Tj ET
+BT /F1 13 Tf 0.150 0.150 0.150 rg 72.0 478.0 Td (The quick brown fox jumps over the lazy dog. 0123456789) Tj ET
+BT /F1 13 Tf 0.150 0.150 0.150 rg 72.0 456.0 Td (ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz) Tj ET
+BT /F1 13 Tf 0.150 0.150 0.150 rg 72.0 434.0 Td (PDF conversion SDK demo - page three - flyingbee software) Tj ET
+BT /F1 11 Tf 0.300 0.300 0.300 rg 60.0 390.0 Td (Note for OCR tests: enable OCR + image scan with chi_sim+eng and) Tj ET
+BT /F1 11 Tf 0.300 0.300 0.300 rg 60.0 374.0 Td (render this page at 300 DPI to exercise the full pipeline.) Tj ET
+endstream
+endobj
+10 0 obj
+<< /Length 1568 >>
+stream
+0.090 0.360 0.650 rg 48.0 130.0 110.0 110.0 re f
+0.930 0.550 0.200 rg 305.00 185.00 304.62 190.87 303.47 196.65 301.57 202.22 298.97 207.50 295.70 212.39 291.82 216.82 287.39 220.70 282.50 223.97 277.22 226.57 271.65 228.47 265.87 229.62 260.00 230.00 254.13 229.62 248.35 228.47 242.78 226.57 237.50 223.97 232.61 220.70 228.18 216.82 224.30 212.39 221.03 207.50 218.43 202.22 216.53 196.65 215.38 190.87 215.00 185.00 215.38 179.13 216.53 173.35 218.43 167.78 221.03 162.50 224.30 157.61 228.18 153.18 232.61 149.30 237.50 146.03 242.78 143.43 248.35 141.53 254.13 140.38 260.00 140.00 265.87 140.38 271.65 141.53 277.22 143.43 282.50 146.03 287.39 149.30 291.82 153.18 295.70 157.61 298.97 162.50 301.57 167.78 303.47 173.35 304.62 179.13 305.00 185.00 h f
+0.700 0.700 0.700 RG 1 w 330.0 150.0 m 560.0 150.0 l S
+0.700 0.700 0.700 RG 1 w 330.0 175.0 m 560.0 175.0 l S
+0.700 0.700 0.700 RG 1 w 330.0 200.0 m 560.0 200.0 l S
+BT /F2 20 Tf 0.090 0.360 0.650 rg 60.0 740.0 Td (Page 4 - End of Sample) Tj ET
+BT /F1 11 Tf 0.150 0.150 0.150 rg 60.0 700.0 Td (This final page is intentionally sparse. A short paragraph and a few) Tj ET
+BT /F1 11 Tf 0.150 0.150 0.150 rg 60.0 684.0 Td (markers below let you confirm that page order and trailing content are) Tj ET
+BT /F1 11 Tf 0.150 0.150 0.150 rg 60.0 668.0 Td (preserved end to end \(4 pages total\).) Tj ET
+BT /F1 10 Tf 0.450 0.450 0.450 rg 60.0 400.0 Td (PDF source: generated programmatically, no third-party copyrights.) Tj ET
+BT /F1 10 Tf 0.450 0.450 0.450 rg 60.0 384.0 Td (FPPDFFramework v10.3.6 iOS sample set) Tj ET
+endstream
+endobj
+11 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+12 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+13 0 obj
+<< /Title (FPPDF Sample) /Producer (FPPDFFramework iOS demo generator) /Creator (pdf-converter-sdk-mac) >>
+endobj
+xref
+0 14
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000139 00000 n 
+0000000299 00000 n 
+0000000459 00000 n 
+0000000619 00000 n 
+0000000780 00000 n 
+0000003491 00000 n 
+0000005332 00000 n 
+0000009163 00000 n 
+0000010784 00000 n 
+0000010855 00000 n 
+0000010931 00000 n 
+trailer
+<< /Size 14 /Root 1 0 R /Info 13 0 R >>
+startxref
+11054
+%%EOF

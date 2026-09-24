@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Fallback launcher icon for API 23-25: the same PDF-document vector with
+     the "J" (Java) badge on a red field. Adaptive icons
+     (mipmap-anydpi-v26) take over from API 26. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#D93025"
+        android:pathData="M0,0 h108 v108 h-108 z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M38,30 h22 l10,10 v38 a2,2 0 0 1 -2,2 h-30 a2,2 0 0 1 -2,-2 v-46 a2,2 0 0 1 2,-2 z" />
+    <path
+        android:fillColor="#D6E4F0"
+        android:pathData="M60,30 l10,10 h-10 z" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#D93025"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M42,58 V46 M42,46 H45 A3,3 0 0 1 45,52 H42 M50,58 V46 M50,46 H52 A6,6 0 0 1 52,58 H50 M60,58 V46 H66 M60,52 H65" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M68,70 m-11.5,0 a11.5,11.5 0 1 0 23,0 a11.5,11.5 0 1 0 -23,0 z" />
+    <path
+        android:fillColor="#D93025"
+        android:pathData="M68,70 m-9.5,0 a9.5,9.5 0 1 0 19,0 a9.5,9.5 0 1 0 -19,0 z" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M70.5,65 V71.5 A3.5,3.5 0 0 1 63.5,71.5 V69.5" />
+</vector>
